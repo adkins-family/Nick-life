@@ -1,0 +1,1652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Nick ⚡">
+<meta name="theme-color" content="#faf8f2">
+<title>Nick's Life ⚡</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  /* ── PALETTE ── */
+  /* Pikachu yellow */
+  --pika:#f5c800;
+  --pika-deep:#c9940a;
+  --pika-light:#fff8d6;
+  --pika-border:#e8d060;
+  /* Taylor Swift lavender/mist */
+  --ts:#9b7fc2;
+  --ts-deep:#6b4fa0;
+  --ts-light:#ede6f8;
+  --ts-border:#c5a8e8;
+  /* Grogu sage */
+  --grogu:#4a8c5c;
+  --grogu-deep:#2e5c3a;
+  --grogu-light:#d8ede0;
+  --grogu-border:#8ec4a0;
+  /* Titanic ocean navy */
+  --ocean:#0f2244;
+  --ocean-mid:#1a3a6e;
+  --ocean-light:#d6e4f7;
+  --ocean-border:#6890c8;
+  /* Neutrals */
+  --bg:#faf8f2;
+  --surface:#ffffff;
+  --border:#ede8da;
+  --border2:#ddd5c0;
+  --text:#1a1610;
+  --text2:#4a4438;
+  --text3:#9a9080;
+  /* Semantic mappings (keep old names working) */
+  --green:var(--grogu);
+  --green-light:var(--grogu-light);
+  --green-border:var(--grogu-border);
+  --gold:var(--pika-deep);
+  --gold-light:var(--pika-light);
+  --gold-border:var(--pika-border);
+  --red:#8b3030;
+  --red-light:#faeaea;
+  --bark:var(--ts-deep);
+  --bark-light:var(--ts-light);
+  --bark-border:var(--ts-border);
+  --sky:var(--ocean-mid);
+  --sky-light:var(--ocean-light);
+  --stone:#b89a72;
+  --stone-light:#f0e8d8;
+  --forest:var(--ocean);
+  --r:14px;
+  --r-sm:9px;
+  --r-pill:30px;
+}
+html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;-webkit-font-smoothing:antialiased}
+.shell{max-width:480px;margin:0 auto;padding:0 0 80px;min-height:100vh}
+.navbar{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:2px solid var(--pika-border);display:flex;z-index:100;max-width:480px;margin:0 auto}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 0 10px;cursor:pointer;gap:3px;transition:all .15s;border:none;background:none;font-family:'DM Sans',sans-serif;color:var(--text3)}
+.nav-item.active{color:var(--pika-deep)}
+.nav-icon{font-size:18px;line-height:1}
+.nav-label{font-size:9px;font-weight:500;letter-spacing:.02em}
+.section{display:none;padding:0 16px}
+.section.active{display:block}
+.page-header{padding:20px 16px 12px;position:sticky;top:0;background:var(--bg);z-index:10;border-bottom:1px solid var(--border);margin:0 -16px 16px}
+.page-back{font-size:13px;font-weight:500;color:var(--ts-deep);cursor:pointer;margin-bottom:6px;display:inline-block;-webkit-tap-highlight-color:transparent}
+.page-back:active{opacity:.6}
+.page-title{font-family:'Playfair Display',serif;font-size:28px;color:var(--ocean);font-style:italic}
+.page-subtitle{font-size:12px;color:var(--text3);margin-top:2px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);margin-bottom:10px;overflow:hidden}
+.card-header{padding:14px 16px 0;display:flex;align-items:center;justify-content:space-between}
+.card-title{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ts-deep)}
+.card-body{padding:8px 16px 14px}
+.add-row{display:flex;gap:8px;padding:12px 0 2px;border-top:1px solid var(--border);margin-top:4px}
+.add-input{flex:1;font-size:13px;font-family:'DM Sans',sans-serif;padding:9px 12px;border:1px solid var(--border2);border-radius:var(--r-sm);background:var(--surface);color:var(--text);outline:none}
+.add-input:focus{border-color:var(--pika-deep);box-shadow:0 0 0 3px rgba(245,200,0,.15)}
+.add-who{font-size:12px;font-family:'DM Sans',sans-serif;padding:9px 8px;border:1px solid var(--border2);border-radius:var(--r-sm);background:var(--surface);color:var(--text);outline:none;cursor:pointer}
+.add-btn{padding:9px 16px;border-radius:var(--r-sm);border:none;background:var(--pika);color:var(--ocean);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:background .15s;white-space:nowrap}
+.add-btn:active{background:var(--pika-deep);color:#fff}
+.empty{text-align:center;padding:32px 0;color:var(--text3);font-size:13px}
+.empty-icon{font-size:28px;margin-bottom:8px}
+.editable{cursor:text;border-radius:4px;transition:background .12s;padding:1px 3px;margin:-1px -3px}
+.editable:hover{background:var(--border)}
+.inline-edit{font-size:14px;font-family:'DM Sans',sans-serif;border:1px solid var(--pika-deep);border-radius:6px;padding:4px 8px;outline:none;background:var(--surface);color:var(--text);width:100%;box-shadow:0 0 0 3px rgba(245,200,0,.18)}
+.hi-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
+.hi-item:last-child{border-bottom:none}
+.hi-body{flex:1;min-width:0}
+.hi-label{font-size:14px;font-weight:500;color:var(--text)}
+.hi-detail{font-size:12px;color:var(--text2);margin-top:3px;line-height:1.5}
+.hi-meta{font-size:12px;color:var(--text3);margin-top:3px;line-height:1.5}
+.hi-del{background:none;border:none;color:var(--text3);cursor:pointer;font-size:18px;padding:0 4px;flex-shrink:0;line-height:1}
+.hi-cat{font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--ts-deep);padding:12px 0 4px;border-top:1px solid var(--border);margin-top:4px}
+.hi-cat:first-child{border-top:none;padding-top:0}
+.hi-badge{display:inline-block;font-size:10px;font-weight:500;padding:2px 8px;border-radius:var(--r-pill);background:var(--gold-light);color:var(--gold);margin-left:6px;vertical-align:middle}
+.list-tab-bar{display:flex;gap:6px;overflow-x:auto;padding-bottom:12px;scrollbar-width:none}
+.list-tab-bar::-webkit-scrollbar{display:none}
+.list-tab{font-size:12px;font-weight:500;padding:6px 14px;border-radius:var(--r-pill);border:1px solid var(--border2);background:var(--surface);color:var(--text2);cursor:pointer;white-space:nowrap;transition:all .15s;font-family:'DM Sans',sans-serif}
+.list-tab.active{background:var(--ts-deep);color:#fff;border-color:var(--ts-deep)}
+.sec-label{font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);padding:14px 0 6px;border-bottom:1px solid var(--border);margin-bottom:2px}
+.sec-label:first-child{padding-top:0}
+#toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ocean);color:var(--pika);padding:9px 18px;border-radius:var(--r-pill);font-size:13px;font-weight:600;z-index:999;transition:all .25s;pointer-events:none;opacity:0;white-space:nowrap}
+#toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+/* ── HOME ── */
+.home-header{padding:28px 16px 20px}
+.home-logo{font-family:'Playfair Display',serif;font-size:38px;color:var(--ocean);font-style:italic;line-height:1.1}
+.home-logo span{color:var(--pika-deep)}
+.home-tag{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--pika-deep);background:var(--pika-light);border:1px solid var(--pika-border);border-radius:var(--r-pill);padding:4px 11px;margin-top:7px}
+.home-date{font-size:13px;color:var(--text3);margin-top:6px}
+.home-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px;margin-bottom:10px}
+.home-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px;cursor:pointer;transition:all .15s;-webkit-tap-highlight-color:transparent}
+.home-card:active{transform:scale(.98);background:var(--bg)}
+.home-card.full{grid-column:span 2}
+.home-card-icon{font-size:22px;margin-bottom:8px;line-height:1}
+.home-card-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:3px}
+.home-card-sub{font-size:11px;color:var(--text3);line-height:1.4}
+.home-card-count{font-family:'Playfair Display',serif;font-size:28px;color:var(--ocean);margin-bottom:2px;font-style:italic}
+.home-link-card{background:linear-gradient(135deg,var(--ts-deep) 0%,var(--ts) 100%);border-radius:var(--r);margin:0 16px 10px;padding:16px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;-webkit-tap-highlight-color:transparent;transition:all .15s}
+.home-link-card:active{transform:scale(.99)}
+.home-link-title{font-size:13px;font-weight:600;color:#fff}
+.home-link-sub{font-size:11px;color:rgba(255,255,255,.65);margin-top:2px}
+.home-link-arrow{font-size:22px;color:rgba(255,255,255,.5)}
+
+/* ── CHECK ITEMS ── */
+.check-item{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
+.check-item:last-child{border-bottom:none}
+.check-box{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;margin-top:1px;background:var(--surface)}
+.check-box.done{background:var(--pika);border-color:var(--pika-deep)}
+.check-box.done::after{content:'✓';font-size:11px;color:var(--ocean);font-weight:700}
+.check-sq{width:20px;height:20px;border-radius:4px;border:1.5px solid var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;background:var(--surface)}
+.check-sq.done{background:var(--pika);border-color:var(--pika-deep)}
+.check-sq.done::after{content:'✓';font-size:11px;color:var(--ocean);font-weight:700}
+.check-body{flex:1;min-width:0}
+.check-text{font-size:14px;color:var(--text);line-height:1.4}
+.check-text.done{text-decoration:line-through;color:var(--text3)}
+.check-sub{font-size:11px;color:var(--text3);margin-top:3px}
+.check-del{background:none;border:none;color:var(--text3);cursor:pointer;font-size:18px;padding:0 4px;flex-shrink:0}
+
+/* ── HABITS ── */
+.habit-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
+.habit-item:last-child{border-bottom:none}
+.habit-streak{font-family:'Playfair Display',serif;font-size:20px;color:var(--pika-deep);font-style:italic;flex-shrink:0;min-width:36px;text-align:center}
+.habit-body{flex:1;min-width:0}
+.habit-name{font-size:14px;color:var(--text);font-weight:500}
+.habit-freq{font-size:11px;color:var(--text3);margin-top:2px}
+.habit-dots{display:flex;gap:4px;margin-top:6px}
+.habit-dot{width:12px;height:12px;border-radius:50%;border:1.5px solid var(--border2);background:var(--surface);cursor:pointer;transition:all .12s;flex-shrink:0}
+.habit-dot.done{background:var(--pika);border-color:var(--pika-deep)}
+.habit-dot.today{border-color:var(--pika-deep)}
+.habit-check-btn{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--border2);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .15s;flex-shrink:0}
+.habit-check-btn.done{background:var(--pika);border-color:var(--pika-deep);color:var(--ocean)}
+.habit-del{background:none;border:none;color:var(--text3);cursor:pointer;font-size:18px;padding:0 4px;flex-shrink:0}
+
+/* ── GOALS ── */
+.goal-item{padding:12px 0;border-bottom:1px solid var(--border)}
+.goal-item:last-child{border-bottom:none}
+.goal-top{display:flex;align-items:flex-start;gap:10px}
+.goal-body{flex:1;min-width:0}
+.goal-title{font-size:14px;font-weight:500;color:var(--text);line-height:1.4}
+.goal-title.done{text-decoration:line-through;color:var(--text3)}
+.goal-meta{font-size:11px;color:var(--text3);margin-top:3px}
+.goal-notes{font-size:12px;color:var(--text2);margin-top:5px;line-height:1.5}
+.goal-progress-bar{height:4px;background:var(--border);border-radius:2px;margin-top:8px;overflow:hidden}
+.goal-progress-fill{height:100%;background:linear-gradient(90deg,var(--pika) 0%,var(--pika-deep) 100%);border-radius:2px;transition:width .3s}
+.goal-cat-badge{display:inline-block;font-size:10px;font-weight:500;padding:2px 8px;border-radius:var(--r-pill);margin-top:5px;margin-right:4px}
+.gc-health{background:var(--green-light);color:var(--green)}
+.gc-career{background:var(--sky-light);color:var(--sky)}
+.gc-personal{background:var(--gold-light);color:var(--gold)}
+.gc-financial{background:var(--bark-light);color:var(--bark)}
+.gc-other{background:var(--border);color:var(--text3)}
+.goal-del{background:none;border:none;color:var(--text3);cursor:pointer;font-size:18px;padding:0 4px;flex-shrink:0}
+
+/* ── HEALTH ── */
+.health-metric{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)}
+.health-metric:last-child{border-bottom:none}
+.health-metric-label{font-size:14px;color:var(--text);font-weight:500}
+.health-metric-sub{font-size:11px;color:var(--text3);margin-top:2px}
+.health-metric-val{font-family:'Playfair Display',serif;font-size:22px;color:var(--ocean);font-style:italic;cursor:pointer}
+.health-metric-val:active{opacity:.7}
+.health-log-item{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)}
+.health-log-item:last-child{border-bottom:none}
+.health-log-date{font-size:11px;color:var(--text3);min-width:48px;flex-shrink:0;padding-top:2px}
+.health-log-text{flex:1;font-size:13px;color:var(--text);line-height:1.4}
+.health-log-del{background:none;border:none;color:var(--text3);cursor:pointer;font-size:16px;padding:0 2px}
+
+/* ── WORD DUMP ── */
+.dump-entry{padding:12px 0;border-bottom:1px solid var(--border)}
+.dump-entry:last-child{border-bottom:none}
+.dump-date{font-size:10px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-bottom:5px}
+.dump-text{font-size:14px;color:var(--text);line-height:1.6;white-space:pre-wrap}
+.dump-del{background:none;border:none;color:var(--text3);cursor:pointer;font-size:16px;padding:0 2px;float:right;line-height:1.4}
+.dump-textarea{width:100%;min-height:120px;font-size:14px;font-family:'DM Sans',sans-serif;padding:12px;border:1px solid var(--border2);border-radius:var(--r-sm);background:var(--surface);color:var(--text);outline:none;resize:vertical;line-height:1.6}
+.dump-textarea:focus{border-color:var(--pika-deep);box-shadow:0 0 0 3px rgba(245,200,0,.15)}
+.dump-mood{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.mood-btn{font-size:18px;padding:4px 8px;border-radius:var(--r-sm);border:1px solid var(--border2);background:var(--surface);cursor:pointer;transition:all .12s;line-height:1}
+.mood-btn.sel{border-color:var(--pika-deep);background:var(--pika-light)}
+
+/* ── REMINDERS ── */
+.reminder-item{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
+.reminder-item:last-child{border-bottom:none}
+.reminder-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.reminder-body{flex:1}
+.reminder-title{font-size:14px;color:var(--text);font-weight:500}
+.reminder-due{font-size:12px;color:var(--text3);margin-top:2px}
+.reminder-due.urgent{color:var(--red)}
+.reminder-del{background:none;border:none;color:var(--text3);cursor:pointer;font-size:18px;padding:0 4px}
+.recur-badge{font-size:10px;font-weight:500;padding:2px 7px;border-radius:var(--r-pill);background:var(--ocean-light);color:var(--ocean);margin-left:6px;vertical-align:middle}
+
+/* ── CAREER ── */
+.career-tab-wrap{display:none}
+.career-tab-wrap.active{display:block}
+
+/* ── SELF CARE ── */
+.selfcare-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
+.selfcare-item:last-child{border-bottom:none}
+.selfcare-body{flex:1}
+.selfcare-name{font-size:14px;font-weight:500;color:var(--text)}
+.selfcare-last{font-size:11px;color:var(--text3);margin-top:2px}
+.selfcare-del{background:none;border:none;color:var(--text3);cursor:pointer;font-size:18px;padding:0 4px}
+.selfcare-done-btn{padding:5px 12px;border-radius:var(--r-sm);border:1px solid var(--pika-border);background:var(--pika-light);color:var(--pika-deep);font-size:11px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap}
+/* ── DAILY ROUTINES ── */
+.routine-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
+.routine-item:last-child{border-bottom:none}
+.routine-check{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;background:var(--surface)}
+.routine-check.done{background:var(--pika);border-color:var(--pika-deep)}
+.routine-check.done::after{content:'✓';font-size:11px;color:var(--ocean);font-weight:700}
+.routine-text{flex:1;font-size:14px;color:var(--text);line-height:1.3}
+.routine-text.done{text-decoration:line-through;color:var(--text3)}
+.routine-reset-btn{font-size:11px;color:var(--text3);background:none;border:none;cursor:pointer;padding:0;font-family:'DM Sans',sans-serif}
+
+/* ── HOBBIES ── */
+.hobby-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);margin-bottom:10px;overflow:hidden}
+.hobby-card-top{padding:14px 16px 10px;display:flex;align-items:flex-start;gap:10px}
+.hobby-icon{font-size:26px;flex-shrink:0;line-height:1}
+.hobby-name{font-size:16px;font-weight:500;color:var(--text);cursor:text}
+.hobby-name.placeholder{color:var(--text3)}
+.hobby-note{font-size:12px;color:var(--text2);margin-top:3px;cursor:text;line-height:1.4}
+.hobby-note.placeholder{color:var(--text3)}
+.hobby-del{background:none;border:none;color:var(--text3);cursor:pointer;font-size:18px;padding:0;line-height:1;margin-left:auto;flex-shrink:0}
+.hobby-last{font-size:11px;color:var(--text3);padding:0 16px 10px}
+.hobby-done-btn{margin:0 16px 14px;padding:7px 14px;border-radius:var(--r-sm);border:1px solid var(--pika-border);background:var(--pika-light);color:var(--pika-deep);font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;display:inline-block}
+
+/* ── OBSESSION BANNER ── */
+.obsession-banner{display:flex;gap:0;overflow:hidden;border-radius:var(--r) var(--r) 0 0;margin-bottom:0;height:5px}
+.ob-pika{flex:1;background:var(--pika)}
+.ob-ts{flex:1;background:var(--ts)}
+.ob-grogu{flex:1;background:var(--grogu)}
+.ob-ocean{flex:1;background:var(--ocean)}
+
+/* ── SECTION ACCENT BARS ── */
+.section-accent-pika{height:3px;background:linear-gradient(90deg,var(--pika) 0%,var(--pika-deep) 100%);margin:0 -16px 16px;border-radius:0}
+.section-accent-ts{height:3px;background:linear-gradient(90deg,var(--ts-deep) 0%,var(--ts) 100%);margin:0 -16px 16px;border-radius:0}
+.section-accent-grogu{height:3px;background:linear-gradient(90deg,var(--grogu-deep) 0%,var(--grogu) 100%);margin:0 -16px 16px;border-radius:0}
+.section-accent-ocean{height:3px;background:linear-gradient(90deg,var(--ocean) 0%,var(--ocean-mid) 100%);margin:0 -16px 16px;border-radius:0}
+
+/* ── CARD: subtle left accent by section ── */
+.card-pika{border-left:3px solid var(--pika) !important}
+.card-ts{border-left:3px solid var(--ts) !important}
+.card-grogu{border-left:3px solid var(--grogu) !important}
+.card-ocean{border-left:3px solid var(--ocean-mid) !important}
+
+/* ── HOME CARD HOVER GLOW ── */
+.home-card:active{transform:scale(.97);opacity:.9}
+</style>
+</head>
+<body>
+
+<div id="toast"></div>
+<div class="obsession-banner"><div class="ob-pika"></div><div class="ob-ts"></div><div class="ob-grogu"></div><div class="ob-ocean"></div></div>
+<div class="shell">
+
+<!-- HOME -->
+<div id="s-home" class="section active">
+  <div class="home-header" style="background:linear-gradient(180deg,rgba(245,200,0,.06) 0%,transparent 100%);border-radius:0 0 var(--r) var(--r)">
+    <div class="home-logo">Nick's <span>Life</span> <span style="font-size:28px;font-style:normal">⚡</span></div>
+    <div class="home-tag">⚡ Pikachu &nbsp;·&nbsp; 🎵 Taylor &nbsp;·&nbsp; 🟢 Grogu &nbsp;·&nbsp; 🚢 Titanic</div>
+    <div class="home-date" id="home-date">—</div>
+  </div>
+
+  <div class="home-grid">
+    <div class="home-card" onclick="goTo('health')" style="border-top:3px solid var(--pika)">
+      <div class="home-card-icon">🩺</div>
+      <div class="home-card-count" id="dash-health">—</div>
+      <div class="home-card-title">Health</div>
+      <div class="home-card-sub">metrics & log</div>
+    </div>
+    <div class="home-card" onclick="goTo('selfcare')" style="border-top:3px solid var(--ts)">
+      <div class="home-card-icon">🌸</div>
+      <div class="home-card-count" id="dash-selfcare">—</div>
+      <div class="home-card-title">Self Care</div>
+      <div class="home-card-sub">routines & rituals</div>
+    </div>
+    <div class="home-card" onclick="goTo('habits')" style="border-top:3px solid var(--pika-deep)">
+      <div class="home-card-icon">⚡</div>
+      <div class="home-card-count" id="dash-habits">—</div>
+      <div class="home-card-title">Habits</div>
+      <div class="home-card-sub">daily tracking</div>
+    </div>
+    <div class="home-card" onclick="goTo('goals')" style="border-top:3px solid var(--ts-deep)">
+      <div class="home-card-icon">🎵</div>
+      <div class="home-card-count" id="dash-goals">—</div>
+      <div class="home-card-title">Goals</div>
+      <div class="home-card-sub">active goals</div>
+    </div>
+    <div class="home-card" onclick="goTo('hobbies')" style="border-top:3px solid var(--grogu)">
+      <div class="home-card-icon">🟢</div>
+      <div class="home-card-count" id="dash-hobbies">—</div>
+      <div class="home-card-title">Hobbies</div>
+      <div class="home-card-sub">interests & projects</div>
+    </div>
+    <div class="home-card" onclick="goTo('career')" style="border-top:3px solid var(--ocean)">
+      <div class="home-card-icon">💻</div>
+      <div class="home-card-count" id="dash-career">—</div>
+      <div class="home-card-title">Career</div>
+      <div class="home-card-sub">Lula · wins & goals</div>
+    </div>
+    <div class="home-card full" onclick="goTo('reminders')" style="border-top:3px solid var(--ocean)">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div class="home-card-icon">🔔</div>
+          <div class="home-card-title">Reminders & Recurring</div>
+          <div class="home-card-sub" id="dash-remind-sub">upcoming & repeating</div>
+        </div>
+        <div class="home-card-count" id="dash-reminders" style="font-size:36px">—</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="home-link-card" onclick="goTo('dump')">
+    <div>
+      <div class="home-link-title">✍️ &nbsp;Word Dump</div>
+      <div class="home-link-sub" id="dash-dump-sub">brain dump, journal, thoughts</div>
+    </div>
+    <div class="home-link-arrow">›</div>
+  </div>
+
+  <div class="home-link-card" onclick="openAdkins()" style="background:linear-gradient(135deg,var(--ocean) 0%,var(--ocean-mid) 100%)">
+    <div>
+      <div class="home-link-title">🚢 &nbsp;Adkins Home App</div>
+      <div class="home-link-sub">back to the ship — open the shared family app</div>
+    </div>
+    <div class="home-link-arrow">›</div>
+  </div>
+</div>
+
+<!-- HEALTH -->
+<div id="s-health" class="section">
+  <div class="page-header">
+    <div class="section-accent-pika"></div>
+    <div class="page-title">Health</div>
+    <div class="page-subtitle">🩺 track your stats like a Pokédex</div>
+  </div>
+  <div class="list-tab-bar">
+    <button class="list-tab active" onclick="switchTab('health','metrics',this)">📊 Metrics</button>
+    <button class="list-tab" onclick="switchTab('health','log',this)">📋 Log</button>
+    <button class="list-tab" onclick="switchTab('health','meds',this)">💊 Meds</button>
+  </div>
+  <div id="health-tab-metrics">
+    <div class="card card-pika">
+      <div class="card-header"><div class="card-title">Key metrics</div><div style="font-size:11px;color:var(--text3)">tap a value to update</div></div>
+      <div class="card-body" style="padding-top:10px">
+        <div id="health-metrics-list"></div>
+        <div class="add-row" style="flex-wrap:wrap;gap:6px">
+          <input class="add-input" id="new-metric-name" placeholder="Metric (e.g. Weight, Sleep, Mood)">
+          <input class="add-input" id="new-metric-val" placeholder="Value" style="max-width:100px">
+          <input class="add-input" id="new-metric-unit" placeholder="Unit (lbs, hrs…)" style="max-width:90px">
+          <button class="add-btn" onclick="addMetric()">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="health-tab-log" style="display:none">
+    <div class="card">
+      <div class="card-body" style="padding-top:14px">
+        <div id="health-log-list"></div>
+        <div class="add-row" style="flex-wrap:wrap;gap:6px">
+          <input class="add-input" id="new-log-text" placeholder="Log entry (symptoms, workouts, meals…)">
+          <select id="new-log-cat" class="add-who">
+            <option value="General">General</option>
+            <option value="Workout">Workout</option>
+            <option value="Symptom">Symptom</option>
+            <option value="Mental">Mental</option>
+            <option value="Sleep">Sleep</option>
+            <option value="Food">Food</option>
+          </select>
+          <button class="add-btn" onclick="addHealthLog()">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="health-tab-meds" style="display:none">
+    <div class="card">
+      <div class="card-body" style="padding-top:14px">
+        <div id="health-meds-list"></div>
+        <div class="add-row" style="flex-wrap:wrap;gap:6px">
+          <input class="add-input" id="new-med-name" placeholder="Medication or supplement…">
+          <input class="add-input" id="new-med-dose" placeholder="Dose" style="max-width:90px">
+          <input class="add-input" id="new-med-freq" placeholder="When (daily, AM…)" style="max-width:110px">
+          <button class="add-btn" onclick="addMed()">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SELF CARE -->
+<div id="s-selfcare" class="section">
+  <div class="page-header">
+    <div class="section-accent-ts"></div>
+    <div class="page-title">Self Care</div>
+    <div class="page-subtitle">🌸 take care of yourself, bestie</div>
+  </div>
+  <div class="list-tab-bar">
+    <button class="list-tab active" onclick="switchTab('selfcare','routine',this)">🌅 Routine</button>
+    <button class="list-tab" onclick="switchTab('selfcare','daily',this)">📋 Daily Lists</button>
+    <button class="list-tab" onclick="switchTab('selfcare','appts',this)">📅 Appointments</button>
+    <button class="list-tab" onclick="switchTab('selfcare','grooming',this)">✂️ Grooming</button>
+  </div>
+  <div id="selfcare-tab-routine">
+    <div class="card">
+      <div class="card-header"><div class="card-title">Routine tracker</div><div style="font-size:11px;color:var(--text3)">tap ✓ Done to log today</div></div>
+      <div class="card-body" style="padding-top:10px">
+        <div id="selfcare-routine-list"></div>
+        <div class="add-row" style="flex-wrap:wrap;gap:6px">
+          <input class="add-input" id="new-sc-name" placeholder="Routine item…">
+          <select id="new-sc-time" class="add-who">
+            <option value="Morning">Morning</option>
+            <option value="Evening">Evening</option>
+            <option value="Daily">Daily</option>
+            <option value="Weekly">Weekly</option>
+          </select>
+          <button class="add-btn" onclick="addSelfCare()">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="selfcare-tab-daily" style="display:none">
+    <div class="card">
+      <div class="card-header"><div class="card-title">🌄 Work List — Morning</div><div style="font-size:11px;color:var(--text3)">7:30 AM · Tue/Wed/Thu</div></div>
+      <div class="card-body" style="padding-top:10px">
+        <div id="routine-morning-list"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">🌇 After Work</div><div style="font-size:11px;color:var(--text3)">5 PM · Daily</div></div>
+      <div class="card-body" style="padding-top:10px">
+        <div id="routine-afterwork-list"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">🌙 Night List</div><div style="font-size:11px;color:var(--text3)">9 PM · Daily</div></div>
+      <div class="card-body" style="padding-top:10px">
+        <div id="routine-night-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="selfcare-tab-appts" style="display:none">
+    <div class="card">
+      <div class="card-body" style="padding-top:14px">
+        <div id="selfcare-appts-list"></div>
+        <div class="add-row" style="flex-wrap:wrap;gap:6px">
+          <input class="add-input" id="new-appt-name" placeholder="Appointment type (Dentist, Physical…)">
+          <input class="add-input" id="new-appt-date" placeholder="Date / next due" style="max-width:120px">
+          <input class="add-input" id="new-appt-notes" placeholder="Notes (provider, location…)" style="width:100%;max-width:100%">
+          <button class="add-btn" onclick="addAppt()">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="selfcare-tab-grooming" style="display:none">
+    <div class="card">
+      <div class="card-header"><div class="card-title">Grooming & upkeep</div></div>
+      <div class="card-body" style="padding-top:10px">
+        <div id="selfcare-grooming-list"></div>
+        <div class="add-row" style="flex-wrap:wrap;gap:6px">
+          <input class="add-input" id="new-groom-name" placeholder="e.g. Haircut, Nails, Skincare…">
+          <input class="add-input" id="new-groom-freq" placeholder="How often" style="max-width:110px">
+          <button class="add-btn" onclick="addGrooming()">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HABITS -->
+<div id="s-habits" class="section">
+  <div class="page-header">
+    <div class="section-accent-pika"></div>
+    <div class="page-title">Habits</div>
+    <div class="page-subtitle">⚡ gotta catch 'em all — every single day</div>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-title">Today's habits</div><div style="font-size:11px;color:var(--text3)" id="habits-done-count">—</div></div>
+    <div class="card-body" style="padding-top:10px">
+      <div id="habits-list"></div>
+      <div class="add-row" style="flex-wrap:wrap;gap:6px">
+        <input class="add-input" id="new-habit-name" placeholder="New habit…" onkeydown="if(event.key==='Enter')addHabit()">
+        <select id="new-habit-freq" class="add-who">
+          <option value="Daily">Daily</option>
+          <option value="Weekdays">Weekdays</option>
+          <option value="Weekly">Weekly</option>
+        </select>
+        <button class="add-btn" onclick="addHabit()">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GOALS -->
+<div id="s-goals" class="section">
+  <div class="page-header">
+    <div class="section-accent-ts"></div>
+    <div class="page-title">Goals</div>
+    <div class="page-subtitle">🎵 long live all the mountains we moved</div>
+  </div>
+  <div class="list-tab-bar">
+    <button class="list-tab active" onclick="switchTab('goals','active',this)">🎯 Active</button>
+    <button class="list-tab" onclick="switchTab('goals','someday',this)">💭 Someday</button>
+    <button class="list-tab" onclick="switchTab('goals','done',this)">✅ Done</button>
+  </div>
+  <div id="goals-tab-active">
+    <div class="card card-ts">
+      <div class="card-body" style="padding-top:14px">
+        <div id="goals-active-list"></div>
+        <div class="add-row" style="flex-wrap:wrap;gap:6px">
+          <input class="add-input" id="new-goal-title" placeholder="Goal…">
+          <select id="new-goal-cat" class="add-who">
+            <option value="personal">Personal</option>
+            <option value="health">Health</option>
+            <option value="career">Career</option>
+            <option value="financial">Financial</option>
+            <option value="other">Other</option>
+          </select>
+          <button class="add-btn" onclick="addGoal('active')">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="goals-tab-someday" style="display:none">
+    <div class="card">
+      <div class="card-body" style="padding-top:14px">
+        <div id="goals-someday-list"></div>
+        <div class="add-row" style="flex-wrap:wrap;gap:6px">
+          <input class="add-input" id="new-someday-title" placeholder="Someday goal…">
+          <select id="new-someday-cat" class="add-who">
+            <option value="personal">Personal</option>
+            <option value="health">Health</option>
+            <option value="career">Career</option>
+            <option value="financial">Financial</option>
+            <option value="other">Other</option>
+          </select>
+          <button class="add-btn" onclick="addGoal('someday')">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="goals-tab-done" style="display:none">
+    <div class="card">
+      <div class="card-body" style="padding-top:14px">
+        <div id="goals-done-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HOBBIES -->
+<div id="s-hobbies" class="section">
+  <div class="page-header">
+    <div class="section-accent-grogu"></div>
+    <div class="page-title">Hobbies</div>
+    <div class="page-subtitle">🟢 this is the way — find your joy</div>
+  </div>
+  <div id="hobbies-list"></div>
+  <div class="card card-grogu">
+    <div class="card-header"><div class="card-title">Add a hobby</div></div>
+    <div class="card-body">
+      <div class="add-row" style="flex-wrap:wrap;gap:6px;border-top:none;padding-top:6px">
+        <input class="add-input" id="new-hobby-icon" placeholder="Emoji" style="max-width:60px">
+        <input class="add-input" id="new-hobby-name" placeholder="Hobby name…" onkeydown="if(event.key==='Enter')addHobby()">
+        <input class="add-input" id="new-hobby-note" placeholder="Note (gear, goals, status…)" style="width:100%;max-width:100%">
+        <button class="add-btn" onclick="addHobby()">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CAREER -->
+<div id="s-career" class="section">
+  <div class="page-header">
+    <div class="section-accent-ocean"></div>
+    <div class="page-title">Career</div>
+    <div class="page-subtitle">💻 Lula · Onboarding Specialist · make it happen</div>
+  </div>
+  <div class="list-tab-bar">
+    <button class="list-tab active" onclick="switchTab('career','wins',this)">🏆 Wins</button>
+    <button class="list-tab" onclick="switchTab('career','goals',this)">📈 Goals</button>
+    <button class="list-tab" onclick="switchTab('career','notes',this)">📝 Notes</button>
+    <button class="list-tab" onclick="switchTab('career','skills',this)">🧠 Skills</button>
+  </div>
+  <div id="career-tab-wins">
+    <div class="card card-ocean">
+      <div class="card-header"><div class="card-title">Wins & accomplishments</div><div style="font-size:11px;color:var(--text3)">log the good stuff</div></div>
+      <div class="card-body" style="padding-top:10px">
+        <div id="career-wins-list"></div>
+        <div class="add-row" style="flex-wrap:wrap;gap:6px">
+          <input class="add-input" id="new-win-text" placeholder="Win or accomplishment…">
+          <button class="add-btn" onclick="addCareerItem('wins')">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="career-tab-goals" style="display:none">
+    <div class="card">
+      <div class="card-body" style="padding-top:14px">
+        <div id="career-goals-list"></div>
+        <div class="add-row" style="flex-wrap:wrap;gap:6px">
+          <input class="add-input" id="new-cgoal-text" placeholder="Career goal…">
+          <select id="new-cgoal-horizon" class="add-who">
+            <option value="Now">Now</option>
+            <option value="30 days">30 days</option>
+            <option value="90 days">90 days</option>
+            <option value="1 year">1 year</option>
+          </select>
+          <button class="add-btn" onclick="addCareerGoal()">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="career-tab-notes" style="display:none">
+    <div class="card">
+      <div class="card-body" style="padding-top:14px">
+        <div id="career-notes-list"></div>
+        <div class="add-row" style="flex-wrap:wrap;gap:6px">
+          <input class="add-input" id="new-cnote-text" placeholder="Note, idea, feedback received…">
+          <button class="add-btn" onclick="addCareerItem('notes')">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="career-tab-skills" style="display:none">
+    <div class="card">
+      <div class="card-body" style="padding-top:14px">
+        <div id="career-skills-list"></div>
+        <div class="add-row" style="flex-wrap:wrap;gap:6px">
+          <input class="add-input" id="new-skill-name" placeholder="Skill or tool…">
+          <select id="new-skill-level" class="add-who">
+            <option value="Learning">Learning</option>
+            <option value="Developing">Developing</option>
+            <option value="Proficient">Proficient</option>
+            <option value="Strong">Strong</option>
+          </select>
+          <button class="add-btn" onclick="addSkill()">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WORD DUMP -->
+<div id="s-dump" class="section">
+  <div class="page-header">
+    <div class="section-accent-ts"></div>
+    <div class="page-title">Word Dump</div>
+    <div class="page-subtitle">🚢 I'm the king of the world — speak your truth</div>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-title">New entry</div></div>
+    <div class="card-body">
+      <div class="dump-mood" id="mood-btns">
+        <button class="mood-btn" onclick="selMood(this,'😊')">😊</button>
+        <button class="mood-btn" onclick="selMood(this,'😔')">😔</button>
+        <button class="mood-btn" onclick="selMood(this,'😤')">😤</button>
+        <button class="mood-btn" onclick="selMood(this,'😴')">😴</button>
+        <button class="mood-btn" onclick="selMood(this,'🤔')">🤔</button>
+        <button class="mood-btn" onclick="selMood(this,'🙏')">🙏</button>
+        <button class="mood-btn" onclick="selMood(this,'🔥')">🔥</button>
+        <button class="mood-btn" onclick="selMood(this,'🥲')">🥲</button>
+      </div>
+      <textarea class="dump-textarea" id="dump-input" placeholder="What's on your mind…"></textarea>
+      <div style="display:flex;justify-content:flex-end;margin-top:8px">
+        <button class="add-btn" onclick="saveDump()">Save</button>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Past entries</div>
+      <div style="font-size:11px;color:var(--text3)" id="dump-count">—</div>
+    </div>
+    <div class="card-body" style="padding-top:10px">
+      <div id="dump-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- REMINDERS & RECURRING -->
+<div id="s-reminders" class="section">
+  <div class="page-header">
+    <div class="section-accent-ocean"></div>
+    <div class="page-title">Reminders</div>
+    <div class="page-subtitle">🔔 don't forget, don't forget, don't forget</div>
+  </div>
+  <div class="list-tab-bar">
+    <button class="list-tab active" onclick="switchTab('reminders','upcoming',this)">🔔 Upcoming</button>
+    <button class="list-tab" onclick="switchTab('reminders','recurring',this)">🔁 Recurring</button>
+  </div>
+  <div id="reminders-tab-upcoming">
+    <div class="card">
+      <div class="card-body" style="padding-top:14px">
+        <div id="reminders-list"></div>
+        <div class="add-row" style="flex-wrap:wrap;gap:6px">
+          <input class="add-input" id="new-rem-title" placeholder="Reminder…">
+          <input class="add-input" id="new-rem-due" placeholder="Due date" style="max-width:110px">
+          <select id="new-rem-color" class="add-who">
+            <option value="var(--green)">🟢 Normal</option>
+            <option value="var(--gold)">🟡 Soon</option>
+            <option value="var(--red)">🔴 Urgent</option>
+          </select>
+          <button class="add-btn" onclick="addReminder()">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="reminders-tab-recurring" style="display:none">
+    <div class="card">
+      <div class="card-body" style="padding-top:14px">
+        <div id="recurring-list"></div>
+        <div class="add-row" style="flex-wrap:wrap;gap:6px">
+          <input class="add-input" id="new-recur-title" placeholder="Recurring item…">
+          <select id="new-recur-freq" class="add-who">
+            <option value="Daily">Daily</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Quarterly">Quarterly</option>
+            <option value="Yearly">Yearly</option>
+          </select>
+          <input class="add-input" id="new-recur-day" placeholder="Day / timing" style="max-width:110px">
+          <button class="add-btn" onclick="addRecurring()">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end shell -->
+
+<!-- NAV BAR -->
+<nav class="navbar">
+  <button class="nav-item active" onclick="goTo('home',this)">
+    <div class="nav-icon">⌂</div>
+    <div class="nav-label">Home</div>
+  </button>
+  <button class="nav-item" onclick="goTo('health',this)">
+    <div class="nav-icon">🩺</div>
+    <div class="nav-label">Health</div>
+  </button>
+  <button class="nav-item" onclick="goTo('habits',this)">
+    <div class="nav-icon">⚡</div>
+    <div class="nav-label">Habits</div>
+  </button>
+  <button class="nav-item" onclick="goTo('goals',this)">
+    <div class="nav-icon">🎵</div>
+    <div class="nav-label">Goals</div>
+  </button>
+  <button class="nav-item" onclick="goTo('career',this)">
+    <div class="nav-icon">💻</div>
+    <div class="nav-label">Career</div>
+  </button>
+  <button class="nav-item" onclick="goTo('dump',this)">
+    <div class="nav-icon">✍️</div>
+    <div class="nav-label">Dump</div>
+  </button>
+  <button class="nav-item" onclick="goTo('reminders',this)">
+    <div class="nav-icon">🔔</div>
+    <div class="nav-label">Remind</div>
+  </button>
+</nav>
+
+<script>
+// ── UTILS ──────────────────────────────────────────────────────
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2);}
+function escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+let toastTimer;
+function toast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.classList.add('show');
+  clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2200);
+}
+function todayStr(){return new Date().toISOString().slice(0,10);}
+function todayLabel(){
+  const n=new Date();
+  const DAYS=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return MONTHS[n.getMonth()]+' '+n.getDate();
+}
+function save(k){localStorage.setItem('nl_'+k,JSON.stringify(state[k]));}
+
+// ── STATE ──────────────────────────────────────────────────────
+const state={
+  metrics:    JSON.parse(localStorage.getItem('nl_metrics')  ||'null')||defaultMetrics(),
+  healthLog:  JSON.parse(localStorage.getItem('nl_healthLog')||'null')||[],
+  meds:       JSON.parse(localStorage.getItem('nl_meds')     ||'null')||defaultMeds(),
+  selfcare:   JSON.parse(localStorage.getItem('nl_selfcare') ||'null')||defaultSelfCare(),
+  appts:      JSON.parse(localStorage.getItem('nl_appts')    ||'null')||defaultAppts(),
+  grooming:   JSON.parse(localStorage.getItem('nl_grooming') ||'null')||defaultGrooming(),
+  habits:     JSON.parse(localStorage.getItem('nl_habits')   ||'null')||defaultHabits(),
+  goals:      JSON.parse(localStorage.getItem('nl_goals')    ||'null')||defaultGoals(),
+  hobbies:    JSON.parse(localStorage.getItem('nl_hobbies')  ||'null')||defaultHobbies(),
+  careerWins: JSON.parse(localStorage.getItem('nl_careerWins')||'null')||[],
+  careerGoals:JSON.parse(localStorage.getItem('nl_careerGoals')||'null')||defaultCareerGoals(),
+  careerNotes:JSON.parse(localStorage.getItem('nl_careerNotes')||'null')||[],
+  skills:     JSON.parse(localStorage.getItem('nl_skills')   ||'null')||defaultSkills(),
+  dump:       JSON.parse(localStorage.getItem('nl_dump')     ||'null')||[],
+  reminders:  JSON.parse(localStorage.getItem('nl_reminders')||'null')||defaultReminders(),
+  recurring:  JSON.parse(localStorage.getItem('nl_recurring')||'null')||defaultRecurring(),
+  routines:   JSON.parse(localStorage.getItem('nl_routines') ||'null')||defaultRoutines(),
+};
+
+// ── DEFAULTS ───────────────────────────────────────────────────
+function defaultMetrics(){return[
+  {id:uid(),name:'Weight',value:'—',unit:'lbs',updated:''},
+  {id:uid(),name:'Sleep',value:'—',unit:'hrs',updated:''},
+  {id:uid(),name:'Water',value:'—',unit:'oz',updated:''},
+  {id:uid(),name:'Mood',value:'—',unit:'/10',updated:''},
+];}
+function defaultMeds(){return[
+  {id:uid(),name:'Tap to add medication or supplement',dose:'',freq:'Daily',notes:''},
+];}
+function defaultSelfCare(){return[
+  {id:uid(),name:'Facemask / skincare',time:'Morning',last:''},
+  {id:uid(),name:'Red light therapy',time:'Morning',last:''},
+  {id:uid(),name:'Collagen cream (hair, face)',time:'Evening',last:''},
+  {id:uid(),name:'Shower or wash face',time:'Evening',last:''},
+  {id:uid(),name:'Self care if needed',time:'Evening',last:''},
+  {id:uid(),name:'ADHD time',time:'Evening',last:''},
+  {id:uid(),name:'Read / hobby / TV time',time:'Evening',last:''},
+];}
+function defaultAppts(){return[
+  {id:uid(),name:'Dentist',date:"Michael's Place · Jun 9",notes:''},
+  {id:uid(),name:'Doctor physical',date:'Jun 19',notes:''},
+];}
+function defaultGrooming(){return[
+  {id:uid(),name:'Haircut',freq:'Every 4–6 weeks',last:''},
+  {id:uid(),name:'Nails',freq:'Every 2 weeks',last:''},
+  {id:uid(),name:'Bhair / body hair',freq:'As needed',last:''},
+  {id:uid(),name:'Facemask',freq:'Weekly',last:''},
+];}
+function defaultHabits(){return[
+  {id:uid(),name:'Meds',freq:'Daily',streak:0,log:[]},
+  {id:uid(),name:'Drink water / Alani',freq:'Daily',streak:0,log:[]},
+  {id:uid(),name:'Vitamins',freq:'Daily',streak:0,log:[]},
+  {id:uid(),name:'Gym / red light',freq:'Daily',streak:0,log:[]},
+  {id:uid(),name:'Read / zone out',freq:'Daily',streak:0,log:[]},
+  {id:uid(),name:'Physical activity',freq:'Daily',streak:0,log:[]},
+  {id:uid(),name:'Fiber / Soursop',freq:'Daily',streak:0,log:[]},
+  {id:uid(),name:'No doom-scroll after 9pm',freq:'Daily',streak:0,log:[]},
+];}
+function defaultGoals(){return[
+  {id:uid(),bucket:'active',category:'career',title:'Nail the pilot offboarding process at Lula',notes:'Build the template, get feedback from AM team',done:false,progress:30,created:todayStr()},
+  {id:uid(),bucket:'active',category:'health',title:'Build a consistent morning & evening routine',notes:'Work list, After Work, Night List — all 3 daily',done:false,progress:25,created:todayStr()},
+  {id:uid(),bucket:'active',category:'personal',title:'Thank you cards from wedding',notes:'',done:false,progress:10,created:todayStr()},
+  {id:uid(),bucket:'active',category:'personal',title:'New ID + name change',notes:'Also Kansas ID for Michael',done:false,progress:0,created:todayStr()},
+  {id:uid(),bucket:'active',category:'personal',title:'401k mailings + address update',notes:'',done:false,progress:0,created:todayStr()},
+  {id:uid(),bucket:'active',category:'personal',title:'Update $, Cali insurance & sign benefits',notes:'',done:false,progress:0,created:todayStr()},
+  {id:uid(),bucket:'active',category:'personal',title:'Organize tree house',notes:'',done:false,progress:0,created:todayStr()},
+  {id:uid(),bucket:'active',category:'personal',title:'Week prep & new routine',notes:'',done:false,progress:0,created:todayStr()},
+  {id:uid(),bucket:'active',category:'personal',title:'Warranties — rugs, record player, appliances',notes:'',done:false,progress:0,created:todayStr()},
+  {id:uid(),bucket:'active',category:'personal',title:'Cali new tags',notes:'',done:false,progress:0,created:todayStr()},
+  {id:uid(),bucket:'someday',category:'personal',title:'Take a cooking class with Michael',notes:'',done:false,progress:0,created:todayStr()},
+  {id:uid(),bucket:'someday',category:'personal',title:'Meal prep lunches and dinners consistently',notes:'',done:false,progress:0,created:todayStr()},
+];}
+function defaultHobbies(){return[
+  {id:uid(),icon:'🎸',name:'Guitar',notes:'Been a while — want to get back into it',last:''},
+  {id:uid(),icon:'📚',name:'Reading',notes:'Currently reading: tap to update',last:''},
+  {id:uid(),icon:'🎮',name:'Gaming',notes:'Tap to add current games',last:''},
+  {id:uid(),icon:'🎵',name:'Music / concerts',notes:'Tap to add notes',last:''},
+];}
+function defaultCareerGoals(){return[
+  {id:uid(),text:'Complete pilot offboarding process documentation',horizon:'30 days',done:false},
+  {id:uid(),text:'Build strong handoff rhythm with account management',horizon:'90 days',done:false},
+];}
+function defaultSkills(){return[
+  {id:uid(),name:'Client lifecycle management',level:'Proficient'},
+  {id:uid(),name:'HTML / CSS / JS',level:'Developing'},
+  {id:uid(),name:'Process documentation',level:'Strong'},
+  {id:uid(),name:'Onboarding systems',level:'Strong'},
+];}
+function defaultReminders(){return[
+  {id:uid(),title:'Doctor physical',due:'Jun 19',color:'var(--gold)'},
+  {id:uid(),title:'Dentist – follow up',due:'This week',color:'var(--gold)'},
+];}
+function defaultRecurring(){return[
+  {id:uid(),title:'Work List (morning routine)',freq:'Daily',day:'7:30 AM · Tue/Wed/Thu',lastDone:''},
+  {id:uid(),title:'After Work checklist',freq:'Daily',day:'5 PM · Mon–Thu & Sun',lastDone:''},
+  {id:uid(),title:'Night List',freq:'Daily',day:'9 PM · Mon–Thu & Sun',lastDone:''},
+  {id:uid(),title:'Weekly Selfcare',freq:'Weekly',day:'Monday',lastDone:''},
+  {id:uid(),title:'Weekly Todo review',freq:'Weekly',day:'Monday',lastDone:''},
+  {id:uid(),title:'Fill bird feeder & squirrel corn',freq:'Weekly',day:'Monday',lastDone:''},
+  {id:uid(),title:'Update todo list & calendar',freq:'Weekly',day:'Monday',lastDone:''},
+  {id:uid(),title:'Review weekly goals',freq:'Weekly',day:'Sunday',lastDone:''},
+  {id:uid(),title:'Update med app',freq:'Weekly',day:'Monday',lastDone:''},
+  {id:uid(),title:'Monthly self-check-in',freq:'Monthly',day:'1st',lastDone:''},
+  {id:uid(),title:'Update career wins log',freq:'Monthly',day:'End of month',lastDone:''},
+];}
+function defaultRoutines(){
+  const mk=(text)=>({id:uid(),text,done:false});
+  return{
+    morning:[
+      mk('Meds'), mk('Let Cali out'), mk('Make bed'), mk('Shower'),
+      mk('Watch'), mk('Computer'), mk('Alani / water'), mk('Lunch'),
+      mk('Vitamins'),
+    ],
+    afterwork:[
+      mk('Plan outfit for tomorrow'), mk('Pack lunch'), mk('Pick up house / garden'),
+      mk('Gym / red light'), mk('Plug in devices'), mk('Selfcare'),
+      mk('ADHD time'), mk('Vitamins'), mk('Fill meds if needed'),
+    ],
+    night:[
+      mk('Shower or wash face'), mk('Self care if needed'),
+      mk('Collagen cream (hair, face mask, etc)'), mk('Fiber / Soursop'),
+      mk('Read, hobby, and/or TV time'),
+    ],
+    lastReset: '',
+  };
+}
+
+// ── NAV ────────────────────────────────────────────────────────
+function goTo(page,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+  const sec=document.getElementById('s-'+page);
+  if(sec)sec.classList.add('active');
+  if(btn)btn.classList.add('active');
+  else{
+    const pages=['home','health','habits','goals','career','dump','reminders'];
+    const idx=pages.indexOf(page);
+    const btns=document.querySelectorAll('.nav-item');
+    if(idx>=0&&btns[idx])btns[idx].classList.add('active');
+  }
+  window.scrollTo(0,0);
+}
+
+function switchTab(section,tab,btn){
+  // hide all tabs in this section
+  document.querySelectorAll(`#s-${section} [id^="${section}-tab-"]`).forEach(t=>t.style.display='none');
+  const el=document.getElementById(`${section}-tab-${tab}`);
+  if(el)el.style.display='block';
+  document.querySelectorAll(`#s-${section} .list-tab`).forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+}
+
+function openAdkins(){
+  window.open('https://adkins-family.github.io/adkinsfamily/','_blank');
+}
+
+// ── RENDER ALL ─────────────────────────────────────────────────
+function renderAll(){
+  renderDash();
+  renderMetrics();renderHealthLog();renderMeds();
+  renderSelfCare();renderAppts();renderGrooming();renderRoutines();
+  renderHabits();
+  renderGoals();
+  renderHobbies();
+  renderCareer();
+  renderDump();
+  renderReminders();renderRecurring();
+}
+
+function renderDash(){
+  const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
+  set('dash-health',state.metrics.length);
+  set('dash-selfcare',state.selfcare.length);
+  const todayDone=state.habits.filter(h=>h.log&&h.log.includes(todayStr())).length;
+  set('dash-habits',`${todayDone}/${state.habits.length}`);
+  set('dash-goals',state.goals.filter(g=>g.bucket==='active'&&!g.done).length);
+  set('dash-hobbies',state.hobbies.length);
+  set('dash-career',(state.careerWins||[]).length);
+  const remCount=(state.reminders||[]).length+(state.recurring||[]).length;
+  set('dash-reminders',remCount);
+  set('dash-remind-sub',remCount===0?'nothing yet':remCount===1?'1 item':`${remCount} items`);
+  const dumpCount=(state.dump||[]).length;
+  set('dash-dump-sub',dumpCount===0?'brain dump, journal, thoughts':`${dumpCount} entr${dumpCount===1?'y':'ies'}`);
+}
+
+// ── HEALTH METRICS ─────────────────────────────────────────────
+function renderMetrics(){
+  const el=document.getElementById('health-metrics-list');if(!el)return;
+  if(!state.metrics.length){el.innerHTML='<div class="empty">No metrics yet</div>';return;}
+  el.innerHTML=state.metrics.map(m=>`
+    <div class="health-metric">
+      <div>
+        <div class="health-metric-label editable" onclick="editMetric('${m.id}','name',this)">${escHtml(m.name)}</div>
+        <div class="health-metric-sub">${escHtml(m.unit)}${m.updated?' · '+escHtml(m.updated):''}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="health-metric-val editable" onclick="editMetric('${m.id}','value',this)">${escHtml(m.value||'—')}</div>
+        <button class="hi-del" onclick="deleteMetric('${m.id}')">×</button>
+      </div>
+    </div>`).join('');
+}
+function editMetric(id,field,el){
+  const m=state.metrics.find(x=>x.id===id);if(!m)return;
+  const input=document.createElement('input');input.className='inline-edit';input.value=m[field]||'';
+  if(field==='value'){input.style.maxWidth='100px';input.style.textAlign='right';}
+  el.replaceWith(input);input.focus();input.select();
+  function save(){
+    const v=input.value.trim();m[field]=v;
+    if(field==='value')m.updated=todayLabel();
+    save_nl('metrics');renderMetrics();renderDash();
+  }
+  input.addEventListener('blur',save);
+  input.addEventListener('keydown',e=>{if(e.key==='Enter')input.blur();if(e.key==='Escape')renderMetrics();});
+}
+function addMetric(){
+  const n=document.getElementById('new-metric-name'),v=document.getElementById('new-metric-val'),u=document.getElementById('new-metric-unit');
+  if(!n)return;const name=n.value.trim();if(!name)return;
+  const m={id:uid(),name,value:v?v.value.trim():'—',unit:u?u.value.trim():'',updated:todayLabel()};
+  state.metrics.push(m);save_nl('metrics');renderMetrics();renderDash();
+  n.value='';if(v)v.value='';if(u)u.value='';toast('Metric added');
+}
+function deleteMetric(id){
+  state.metrics=state.metrics.filter(m=>m.id!==id);save_nl('metrics');renderMetrics();renderDash();toast('Removed');
+}
+
+// ── HEALTH LOG ─────────────────────────────────────────────────
+function renderHealthLog(){
+  const el=document.getElementById('health-log-list');if(!el)return;
+  const sorted=[...state.healthLog].reverse();
+  if(!sorted.length){el.innerHTML='<div class="empty">No log entries yet</div>';return;}
+  el.innerHTML=sorted.map(e=>`
+    <div class="health-log-item">
+      <div class="health-log-date">${escHtml(e.date)}</div>
+      <div class="health-log-text">${e.cat?`<span style="font-size:10px;font-weight:500;color:var(--green);margin-right:6px">${escHtml(e.cat)}</span>`:''}${escHtml(e.text)}</div>
+      <button class="health-log-del" onclick="deleteHealthLog('${e.id}')">×</button>
+    </div>`).join('');
+}
+function addHealthLog(){
+  const t=document.getElementById('new-log-text'),c=document.getElementById('new-log-cat');
+  if(!t)return;const text=t.value.trim();if(!text)return;
+  const e={id:uid(),text,cat:c?c.value:'General',date:todayLabel()};
+  state.healthLog.push(e);save_nl('healthLog');renderHealthLog();
+  t.value='';toast('Logged');
+}
+function deleteHealthLog(id){
+  state.healthLog=state.healthLog.filter(e=>e.id!==id);save_nl('healthLog');renderHealthLog();toast('Removed');
+}
+
+// ── MEDS ───────────────────────────────────────────────────────
+function renderMeds(){
+  const el=document.getElementById('health-meds-list');if(!el)return;
+  if(!state.meds.length){el.innerHTML='<div class="empty">No meds or supplements tracked</div>';return;}
+  el.innerHTML=state.meds.map(m=>`
+    <div class="hi-item">
+      <div class="hi-body">
+        <div class="hi-label editable" onclick="editMed('${m.id}','name',this)">${escHtml(m.name)}</div>
+        <div class="hi-meta">
+          <span class="editable" onclick="editMed('${m.id}','dose',this)">${m.dose?escHtml(m.dose):'add dose…'}</span>
+          &nbsp;·&nbsp;
+          <span class="editable" onclick="editMed('${m.id}','freq',this)">${escHtml(m.freq||'Daily')}</span>
+        </div>
+      </div>
+      <button class="hi-del" onclick="deleteMed('${m.id}')">×</button>
+    </div>`).join('');
+}
+function editMed(id,field,el){
+  const m=state.meds.find(x=>x.id===id);if(!m)return;
+  const input=document.createElement('input');input.className='inline-edit';input.value=m[field]||'';
+  el.replaceWith(input);input.focus();input.select();
+  function save(){const v=input.value.trim();m[field]=v;save_nl('meds');renderMeds();}
+  input.addEventListener('blur',save);input.addEventListener('keydown',e=>{if(e.key==='Enter')input.blur();if(e.key==='Escape')renderMeds();});
+}
+function addMed(){
+  const n=document.getElementById('new-med-name'),d=document.getElementById('new-med-dose'),f=document.getElementById('new-med-freq');
+  if(!n)return;const name=n.value.trim();if(!name)return;
+  const m={id:uid(),name,dose:d?d.value.trim():'',freq:f?f.value.trim():'Daily',notes:''};
+  state.meds.push(m);save_nl('meds');renderMeds();
+  n.value='';if(d)d.value='';if(f)f.value='';toast('Added');
+}
+function deleteMed(id){state.meds=state.meds.filter(m=>m.id!==id);save_nl('meds');renderMeds();toast('Removed');}
+
+// ── SELF CARE ──────────────────────────────────────────────────
+function renderSelfCare(){
+  const el=document.getElementById('selfcare-routine-list');if(!el)return;
+  if(!state.selfcare.length){el.innerHTML='<div class="empty">No routine items yet</div>';return;}
+  const timeOrder=['Morning','Evening','Daily','Weekly'];
+  const groups=[...new Set(state.selfcare.map(s=>s.time))].sort((a,b)=>(timeOrder.indexOf(a)<0?99:timeOrder.indexOf(a))-(timeOrder.indexOf(b)<0?99:timeOrder.indexOf(b)));
+  el.innerHTML=groups.map(grp=>{
+    const items=state.selfcare.filter(s=>s.time===grp);
+    return `<div class="hi-cat">${grp}</div>`+items.map(s=>`
+      <div class="selfcare-item">
+        <div class="selfcare-body">
+          <div class="selfcare-name editable" onclick="editSC('${s.id}','name',this)">${escHtml(s.name)}</div>
+          <div class="selfcare-last">${s.last?'Last done: '+escHtml(s.last):'Not logged yet'}</div>
+        </div>
+        <button class="selfcare-done-btn" onclick="doneSC('${s.id}')">✓ Done</button>
+        <button class="hi-del" onclick="deleteSC('${s.id}')">×</button>
+      </div>`).join('');
+  }).join('');
+}
+function editSC(id,field,el){
+  const s=state.selfcare.find(x=>x.id===id);if(!s)return;
+  const input=document.createElement('input');input.className='inline-edit';input.value=s[field]||'';
+  el.replaceWith(input);input.focus();input.select();
+  function save(){const v=input.value.trim();if(v)s[field]=v;save_nl('selfcare');renderSelfCare();}
+  input.addEventListener('blur',save);input.addEventListener('keydown',e=>{if(e.key==='Enter')input.blur();if(e.key==='Escape')renderSelfCare();});
+}
+function doneSC(id){
+  const s=state.selfcare.find(x=>x.id===id);if(!s)return;
+  s.last=todayLabel();save_nl('selfcare');renderSelfCare();toast('Logged ✓');
+}
+function addSelfCare(){
+  const n=document.getElementById('new-sc-name'),t=document.getElementById('new-sc-time');
+  if(!n)return;const name=n.value.trim();if(!name)return;
+  const s={id:uid(),name,time:t?t.value:'Morning',last:''};
+  state.selfcare.push(s);save_nl('selfcare');renderSelfCare();renderDash();
+  n.value='';toast('Added');
+}
+function deleteSC(id){state.selfcare=state.selfcare.filter(s=>s.id!==id);save_nl('selfcare');renderSelfCare();renderDash();toast('Removed');}
+
+// ── APPOINTMENTS ───────────────────────────────────────────────
+function renderAppts(){
+  const el=document.getElementById('selfcare-appts-list');if(!el)return;
+  if(!state.appts.length){el.innerHTML='<div class="empty">No appointments yet</div>';return;}
+  el.innerHTML=state.appts.map(a=>`
+    <div class="hi-item">
+      <div class="hi-body">
+        <div class="hi-label editable" onclick="editAppt('${a.id}','name',this)">${escHtml(a.name)}</div>
+        <div class="hi-meta editable" onclick="editAppt('${a.id}','date',this)">${a.date?escHtml(a.date):'add date…'}</div>
+        <div class="hi-detail editable" onclick="editAppt('${a.id}','notes',this)">${a.notes?escHtml(a.notes):'tap to add notes…'}</div>
+      </div>
+      <button class="hi-del" onclick="deleteAppt('${a.id}')">×</button>
+    </div>`).join('');
+}
+function editAppt(id,field,el){
+  const a=state.appts.find(x=>x.id===id);if(!a)return;
+  const input=document.createElement('input');input.className='inline-edit';input.value=a[field]||'';
+  el.replaceWith(input);input.focus();input.select();
+  function save(){const v=input.value.trim();a[field]=v;save_nl('appts');renderAppts();}
+  input.addEventListener('blur',save);input.addEventListener('keydown',e=>{if(e.key==='Enter')input.blur();if(e.key==='Escape')renderAppts();});
+}
+function addAppt(){
+  const n=document.getElementById('new-appt-name'),d=document.getElementById('new-appt-date'),nt=document.getElementById('new-appt-notes');
+  if(!n)return;const name=n.value.trim();if(!name)return;
+  const a={id:uid(),name,date:d?d.value.trim():'',notes:nt?nt.value.trim():''};
+  state.appts.push(a);save_nl('appts');renderAppts();
+  n.value='';if(d)d.value='';if(nt)nt.value='';toast('Added');
+}
+function deleteAppt(id){state.appts=state.appts.filter(a=>a.id!==id);save_nl('appts');renderAppts();toast('Removed');}
+
+// ── GROOMING ───────────────────────────────────────────────────
+function renderGrooming(){
+  const el=document.getElementById('selfcare-grooming-list');if(!el)return;
+  if(!state.grooming.length){el.innerHTML='<div class="empty">No grooming items yet</div>';return;}
+  el.innerHTML=state.grooming.map(g=>`
+    <div class="selfcare-item">
+      <div class="selfcare-body">
+        <div class="selfcare-name editable" onclick="editGroom('${g.id}','name',this)">${escHtml(g.name)}</div>
+        <div class="selfcare-last">
+          <span class="editable" onclick="editGroom('${g.id}','freq',this)">${g.freq?escHtml(g.freq):'add frequency…'}</span>
+          ${g.last?' · Last: '+escHtml(g.last):''}
+        </div>
+      </div>
+      <button class="selfcare-done-btn" onclick="doneGroom('${g.id}')">✓ Done</button>
+      <button class="hi-del" onclick="deleteGroom('${g.id}')">×</button>
+    </div>`).join('');
+}
+function editGroom(id,field,el){
+  const g=state.grooming.find(x=>x.id===id);if(!g)return;
+  const input=document.createElement('input');input.className='inline-edit';input.value=g[field]||'';
+  el.replaceWith(input);input.focus();input.select();
+  function save(){const v=input.value.trim();if(v)g[field]=v;save_nl('grooming');renderGrooming();}
+  input.addEventListener('blur',save);input.addEventListener('keydown',e=>{if(e.key==='Enter')input.blur();if(e.key==='Escape')renderGrooming();});
+}
+function doneGroom(id){
+  const g=state.grooming.find(x=>x.id===id);if(!g)return;
+  g.last=todayLabel();save_nl('grooming');renderGrooming();toast('Logged ✓');
+}
+function addGrooming(){
+  const n=document.getElementById('new-groom-name'),f=document.getElementById('new-groom-freq');
+  if(!n)return;const name=n.value.trim();if(!name)return;
+  const g={id:uid(),name,freq:f?f.value.trim():'',last:''};
+  state.grooming.push(g);save_nl('grooming');renderGrooming();
+  n.value='';if(f)f.value='';toast('Added');
+}
+function deleteGroom(id){state.grooming=state.grooming.filter(g=>g.id!==id);save_nl('grooming');renderGrooming();toast('Removed');}
+
+// ── HABITS ─────────────────────────────────────────────────────
+function calcStreak(log){
+  if(!log||!log.length)return 0;
+  const sorted=[...log].sort().reverse();
+  let streak=0,cur=new Date();cur.setHours(0,0,0,0);
+  for(const d of sorted){
+    const ld=new Date(d);ld.setHours(0,0,0,0);
+    const diff=Math.round((cur-ld)/86400000);
+    if(diff===0||diff===1){streak++;cur=ld;}
+    else break;
+  }
+  return streak;
+}
+
+function renderHabits(){
+  const el=document.getElementById('habits-list');if(!el)return;
+  if(!state.habits.length){el.innerHTML='<div class="empty"><div class="empty-icon">⚡</div>No habits yet — Pikachu is waiting!</div>';return;}
+  const today=todayStr();
+  const done=state.habits.filter(h=>h.log&&h.log.includes(today)).length;
+  const dc=document.getElementById('habits-done-count');
+  if(dc)dc.textContent=`${done}/${state.habits.length} today`;
+  el.innerHTML=state.habits.map(h=>{
+    const log=h.log||[];
+    const isDone=log.includes(today);
+    const streak=calcStreak(log);
+    // show last 7 days as dots
+    const dots=Array.from({length:7},(_,i)=>{
+      const d=new Date();d.setDate(d.getDate()-(6-i));
+      const ds=d.toISOString().slice(0,10);
+      const isT=ds===today;
+      const checked=log.includes(ds);
+      return `<div class="habit-dot${checked?' done':''}${isT&&!checked?' today':''}"></div>`;
+    }).join('');
+    return `<div class="habit-item">
+      <div>
+        <div class="habit-streak">${streak>0?streak:'·'}</div>
+        <div style="font-size:9px;color:var(--text3);text-align:center">${streak>0?'streak':''}</div>
+      </div>
+      <div class="habit-body">
+        <div class="habit-name editable" onclick="editHabit('${h.id}','name',this)">${escHtml(h.name)}</div>
+        <div class="habit-freq">${escHtml(h.freq)}</div>
+        <div class="habit-dots">${dots}</div>
+      </div>
+      <button class="habit-check-btn${isDone?' done':''}" onclick="toggleHabit('${h.id}')">${isDone?'✓':'○'}</button>
+      <button class="habit-del" onclick="deleteHabit('${h.id}')">×</button>
+    </div>`;
+  }).join('');
+}
+function editHabit(id,field,el){
+  const h=state.habits.find(x=>x.id===id);if(!h)return;
+  const input=document.createElement('input');input.className='inline-edit';input.value=h[field]||'';
+  el.replaceWith(input);input.focus();input.select();
+  function save(){const v=input.value.trim();if(v)h[field]=v;save_nl('habits');renderHabits();}
+  input.addEventListener('blur',save);input.addEventListener('keydown',e=>{if(e.key==='Enter')input.blur();if(e.key==='Escape')renderHabits();});
+}
+function toggleHabit(id){
+  const h=state.habits.find(x=>x.id===id);if(!h)return;
+  const today=todayStr();
+  if(!h.log)h.log=[];
+  if(h.log.includes(today)){h.log=h.log.filter(d=>d!==today);toast('Unmarked');}
+  else{h.log.push(today);const streakNow=calcStreak(h.log);toast(streakNow>=7?'⚡ Week streak! Pikachu approves!':streakNow>=3?'🔥 '+streakNow+' in a row!':'✓ Logged!');}
+  save_nl('habits');renderHabits();renderDash();
+}
+function addHabit(){
+  const n=document.getElementById('new-habit-name'),f=document.getElementById('new-habit-freq');
+  if(!n)return;const name=n.value.trim();if(!name)return;
+  const h={id:uid(),name,freq:f?f.value:'Daily',streak:0,log:[]};
+  state.habits.push(h);save_nl('habits');renderHabits();renderDash();
+  n.value='';toast('Habit added');
+}
+function deleteHabit(id){state.habits=state.habits.filter(h=>h.id!==id);save_nl('habits');renderHabits();renderDash();toast('Removed');}
+
+// ── GOALS ──────────────────────────────────────────────────────
+const CAT_CLASS={health:'gc-health',career:'gc-career',personal:'gc-personal',financial:'gc-financial',other:'gc-other'};
+const CAT_LABEL={health:'Health',career:'Career',personal:'Personal',financial:'Financial',other:'Other'};
+
+function renderGoals(){
+  ['active','someday','done'].forEach(bucket=>{
+    const el=document.getElementById(`goals-${bucket}-list`);if(!el)return;
+    const items=state.goals.filter(g=>g.bucket===bucket);
+    if(!items.length){el.innerHTML=`<div class="empty">${bucket==='done'?'No completed goals yet — keep going!':'Nothing here yet'}</div>`;return;}
+    el.innerHTML=items.map(g=>`
+      <div class="goal-item">
+        <div class="goal-top">
+          <div class="check-sq${g.done?' done':''}" onclick="toggleGoal('${g.id}')"></div>
+          <div class="goal-body">
+            <div class="goal-title${g.done?' done':''} editable" onclick="editGoal('${g.id}','title',this)">${escHtml(g.title)}</div>
+            <span class="goal-cat-badge ${CAT_CLASS[g.category]||'gc-other'}">${CAT_LABEL[g.category]||'Other'}</span>
+            ${g.notes?`<div class="goal-notes editable" onclick="editGoal('${g.id}','notes',this)">${escHtml(g.notes)}</div>`:'<div class="goal-notes editable" onclick="editGoal(\''+g.id+'\',\'notes\',this)" style="color:var(--text3)">add notes…</div>'}
+            ${bucket==='active'&&!g.done?`<div class="goal-progress-bar"><div class="goal-progress-fill" style="width:${g.progress||0}%"></div></div>
+            <div style="font-size:10px;color:var(--text3);margin-top:3px;cursor:pointer" onclick="nudgeProgress('${g.id}')">${g.progress||0}% — tap to update</div>`:''}
+          </div>
+          <button class="goal-del" onclick="deleteGoal('${g.id}')">×</button>
+        </div>
+      </div>`).join('');
+  });
+  renderDash();
+}
+function editGoal(id,field,el){
+  const g=state.goals.find(x=>x.id===id);if(!g)return;
+  const input=document.createElement('input');input.className='inline-edit';input.value=g[field]||'';
+  el.replaceWith(input);input.focus();input.select();
+  function save(){const v=input.value.trim();if(field==='title'&&!v){renderGoals();return;}g[field]=v;save_nl('goals');renderGoals();}
+  input.addEventListener('blur',save);input.addEventListener('keydown',e=>{if(e.key==='Enter')input.blur();if(e.key==='Escape')renderGoals();});
+}
+function nudgeProgress(id){
+  const g=state.goals.find(x=>x.id===id);if(!g)return;
+  const v=prompt(`Progress for "${g.title}" (0-100):`,g.progress||0);
+  if(v===null)return;
+  const n=Math.max(0,Math.min(100,parseInt(v)||0));
+  g.progress=n;save_nl('goals');renderGoals();toast(`${n}%`);
+}
+function toggleGoal(id){
+  const g=state.goals.find(x=>x.id===id);if(!g)return;
+  g.done=!g.done;
+  if(g.done){g.bucket='done';g.progress=100;toast('Goal complete! 🎯');}
+  else{g.bucket='active';}
+  save_nl('goals');renderGoals();
+}
+function addGoal(bucket){
+  const idSuffix=bucket==='someday'?'someday':'';
+  const ti=document.getElementById(`new-${idSuffix||'goal'}-title`);
+  const ca=document.getElementById(`new-${idSuffix||'goal'}-cat`);
+  if(!ti)return;const title=ti.value.trim();if(!title)return;
+  const g={id:uid(),bucket,category:ca?ca.value:'personal',title,notes:'',done:false,progress:0,created:todayStr()};
+  state.goals.push(g);save_nl('goals');renderGoals();ti.value='';toast('Goal added');
+}
+function deleteGoal(id){state.goals=state.goals.filter(g=>g.id!==id);save_nl('goals');renderGoals();toast('Removed');}
+
+// ── HOBBIES ────────────────────────────────────────────────────
+function renderHobbies(){
+  const el=document.getElementById('hobbies-list');if(!el)return;
+  if(!state.hobbies.length){el.innerHTML='<div class="card"><div class="card-body"><div class="empty"><div class="empty-icon">🎸</div>No hobbies yet — add what lights you up</div></div></div>';return;}
+  el.innerHTML=state.hobbies.map(h=>`
+    <div class="hobby-card">
+      <div class="hobby-card-top">
+        <div class="hobby-icon">${escHtml(h.icon||'🎯')}</div>
+        <div style="flex:1;min-width:0">
+          <div class="hobby-name${h.name?'':' placeholder'} editable" onclick="editHobby('${h.id}','name',this)">${escHtml(h.name||'Hobby name')}</div>
+          <div class="hobby-note${h.notes?'':' placeholder'} editable" onclick="editHobby('${h.id}','notes',this)">${escHtml(h.notes||'Notes, gear, current project…')}</div>
+        </div>
+        <button class="hobby-del" onclick="deleteHobby('${h.id}')">×</button>
+      </div>
+      ${h.last?`<div class="hobby-last">Last logged: ${escHtml(h.last)}</div>`:'<div class="hobby-last" style="color:var(--text3)">Not logged yet</div>'}
+      <button class="hobby-done-btn" onclick="doneHobby('${h.id}')">✓ Logged today</button>
+    </div>`).join('');
+  renderDash();
+}
+function editHobby(id,field,el){
+  const h=state.hobbies.find(x=>x.id===id);if(!h)return;
+  const input=document.createElement('input');input.className='inline-edit';input.value=h[field]||'';
+  el.replaceWith(input);input.focus();input.select();
+  function save(){const v=input.value.trim();if(v)h[field]=v;save_nl('hobbies');renderHobbies();}
+  input.addEventListener('blur',save);input.addEventListener('keydown',e=>{if(e.key==='Enter')input.blur();if(e.key==='Escape')renderHobbies();});
+}
+function doneHobby(id){
+  const h=state.hobbies.find(x=>x.id===id);if(!h)return;
+  h.last=todayLabel();save_nl('hobbies');renderHobbies();toast('Logged ✓');
+}
+function addHobby(){
+  const ico=document.getElementById('new-hobby-icon'),n=document.getElementById('new-hobby-name'),nt=document.getElementById('new-hobby-note');
+  if(!n)return;const name=n.value.trim();if(!name)return;
+  const h={id:uid(),icon:ico?ico.value.trim()||'🎯':'🎯',name,notes:nt?nt.value.trim():'',last:''};
+  state.hobbies.push(h);save_nl('hobbies');renderHobbies();renderDash();
+  n.value='';if(ico)ico.value='';if(nt)nt.value='';toast('Added');
+}
+function deleteHobby(id){state.hobbies=state.hobbies.filter(h=>h.id!==id);save_nl('hobbies');renderHobbies();renderDash();toast('Removed');}
+
+// ── CAREER ─────────────────────────────────────────────────────
+function renderCareer(){
+  renderCareerWins();renderCareerGoals();renderCareerNotes();renderSkills();renderDash();
+}
+function renderCareerWins(){
+  const el=document.getElementById('career-wins-list');if(!el)return;
+  if(!state.careerWins.length){el.innerHTML=`<div class="empty"><div class="empty-icon">💻</div>Log your first win!</div>`;return;}
+  const sorted=[...state.careerWins].reverse();
+  el.innerHTML=sorted.map(w=>`
+    <div class="hi-item">
+      <div class="hi-body">
+        <div class="hi-label editable" onclick="editCareerItem('wins','${w.id}','text',this)">${escHtml(w.text)}</div>
+        <div class="hi-meta">${escHtml(w.date)}</div>
+      </div>
+      <button class="hi-del" onclick="deleteCareerItem('wins','${w.id}')">×</button>
+    </div>`).join('');
+}
+function renderCareerGoals(){
+  const el=document.getElementById('career-goals-list');if(!el)return;
+  if(!state.careerGoals.length){el.innerHTML='<div class="empty">No career goals yet</div>';return;}
+  el.innerHTML=state.careerGoals.map(g=>`
+    <div class="check-item">
+      <div class="check-sq${g.done?' done':''}" onclick="toggleCareerGoal('${g.id}')"></div>
+      <div class="check-body">
+        <div class="check-text${g.done?' done':''} editable" onclick="editCGoal('${g.id}','text',this)">${escHtml(g.text)}</div>
+        <div class="check-sub"><span class="hi-badge" style="margin-left:0">${escHtml(g.horizon)}</span></div>
+      </div>
+      <button class="check-del" onclick="deleteCGoal('${g.id}')">×</button>
+    </div>`).join('');
+}
+function renderCareerNotes(){
+  const el=document.getElementById('career-notes-list');if(!el)return;
+  if(!state.careerNotes.length){el.innerHTML='<div class="empty">No notes yet — feedback, ideas, observations</div>';return;}
+  const sorted=[...state.careerNotes].reverse();
+  el.innerHTML=sorted.map(n=>`
+    <div class="hi-item">
+      <div class="hi-body">
+        <div class="hi-label editable" onclick="editCareerItem('notes','${n.id}','text',this)">${escHtml(n.text)}</div>
+        <div class="hi-meta">${escHtml(n.date)}</div>
+      </div>
+      <button class="hi-del" onclick="deleteCareerItem('notes','${n.id}')">×</button>
+    </div>`).join('');
+}
+function renderSkills(){
+  const el=document.getElementById('career-skills-list');if(!el)return;
+  if(!state.skills.length){el.innerHTML='<div class="empty">No skills tracked yet</div>';return;}
+  const levels=['Learning','Developing','Proficient','Strong'];
+  const levelColor={'Learning':'var(--bark)','Developing':'var(--gold)','Proficient':'var(--sky)','Strong':'var(--green)'};
+  el.innerHTML=state.skills.map(s=>`
+    <div class="hi-item">
+      <div class="hi-body">
+        <div class="hi-label editable" onclick="editSkill('${s.id}','name',this)">${escHtml(s.name)}</div>
+      </div>
+      <span style="font-size:11px;font-weight:500;padding:3px 9px;border-radius:var(--r-pill);background:var(--surface);border:1px solid var(--border2);color:${levelColor[s.level]||'var(--text3)'};cursor:pointer;white-space:nowrap" onclick="cycleSkillLevel('${s.id}')">${escHtml(s.level)}</span>
+      <button class="hi-del" onclick="deleteSkill('${s.id}')">×</button>
+    </div>`).join('');
+}
+function editCareerItem(type,id,field,el){
+  const arr=state[type==='wins'?'careerWins':'careerNotes'];
+  const item=arr.find(x=>x.id===id);if(!item)return;
+  const input=document.createElement('input');input.className='inline-edit';input.value=item[field]||'';
+  el.replaceWith(input);input.focus();input.select();
+  function save(){const v=input.value.trim();if(v)item[field]=v;save_nl(type==='wins'?'careerWins':'careerNotes');renderCareer();}
+  input.addEventListener('blur',save);input.addEventListener('keydown',e=>{if(e.key==='Enter')input.blur();if(e.key==='Escape')renderCareer();});
+}
+function addCareerItem(type){
+  const inputId=type==='wins'?'new-win-text':'new-cnote-text';
+  const inp=document.getElementById(inputId);if(!inp)return;
+  const text=inp.value.trim();if(!text)return;
+  const item={id:uid(),text,date:todayLabel()};
+  if(type==='wins')state.careerWins.push(item);else state.careerNotes.push(item);
+  save_nl(type==='wins'?'careerWins':'careerNotes');renderCareer();inp.value='';toast('Added');
+}
+function deleteCareerItem(type,id){
+  if(type==='wins')state.careerWins=state.careerWins.filter(x=>x.id!==id);
+  else state.careerNotes=state.careerNotes.filter(x=>x.id!==id);
+  save_nl(type==='wins'?'careerWins':'careerNotes');renderCareer();toast('Removed');
+}
+function toggleCareerGoal(id){
+  const g=state.careerGoals.find(x=>x.id===id);if(!g)return;
+  g.done=!g.done;save_nl('careerGoals');renderCareer();toast(g.done?'Done! 🎉':'Unmarked');
+}
+function editCGoal(id,field,el){
+  const g=state.careerGoals.find(x=>x.id===id);if(!g)return;
+  const input=document.createElement('input');input.className='inline-edit';input.value=g[field]||'';
+  el.replaceWith(input);input.focus();input.select();
+  function save(){const v=input.value.trim();if(v)g[field]=v;save_nl('careerGoals');renderCareer();}
+  input.addEventListener('blur',save);input.addEventListener('keydown',e=>{if(e.key==='Enter')input.blur();if(e.key==='Escape')renderCareer();});
+}
+function addCareerGoal(){
+  const t=document.getElementById('new-cgoal-text'),h=document.getElementById('new-cgoal-horizon');
+  if(!t)return;const text=t.value.trim();if(!text)return;
+  const g={id:uid(),text,horizon:h?h.value:'Now',done:false};
+  state.careerGoals.push(g);save_nl('careerGoals');renderCareer();t.value='';toast('Added');
+}
+function deleteCGoal(id){state.careerGoals=state.careerGoals.filter(g=>g.id!==id);save_nl('careerGoals');renderCareer();toast('Removed');}
+function editSkill(id,field,el){
+  const s=state.skills.find(x=>x.id===id);if(!s)return;
+  const input=document.createElement('input');input.className='inline-edit';input.value=s[field]||'';
+  el.replaceWith(input);input.focus();input.select();
+  function save(){const v=input.value.trim();if(v)s[field]=v;save_nl('skills');renderSkills();}
+  input.addEventListener('blur',save);input.addEventListener('keydown',e=>{if(e.key==='Enter')input.blur();if(e.key==='Escape')renderSkills();});
+}
+function cycleSkillLevel(id){
+  const s=state.skills.find(x=>x.id===id);if(!s)return;
+  const levels=['Learning','Developing','Proficient','Strong'];
+  s.level=levels[(levels.indexOf(s.level||'Learning')+1)%levels.length];
+  save_nl('skills');renderSkills();toast(s.level);
+}
+function addSkill(){
+  const n=document.getElementById('new-skill-name'),l=document.getElementById('new-skill-level');
+  if(!n)return;const name=n.value.trim();if(!name)return;
+  const s={id:uid(),name,level:l?l.value:'Learning'};
+  state.skills.push(s);save_nl('skills');renderSkills();n.value='';toast('Added');
+}
+function deleteSkill(id){state.skills=state.skills.filter(s=>s.id!==id);save_nl('skills');renderSkills();toast('Removed');}
+
+// ── WORD DUMP ──────────────────────────────────────────────────
+let selectedMood='';
+function selMood(btn,emoji){
+  document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('sel'));
+  if(selectedMood===emoji){selectedMood='';return;}
+  btn.classList.add('sel');selectedMood=emoji;
+}
+function saveDump(){
+  const ta=document.getElementById('dump-input');if(!ta)return;
+  const text=ta.value.trim();if(!text)return;
+  const entry={id:uid(),text,mood:selectedMood,date:new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})};
+  state.dump.unshift(entry);save_nl('dump');renderDump();renderDash();
+  ta.value='';selectedMood='';
+  document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('sel'));
+  toast('Saved');
+}
+function renderDump(){
+  const el=document.getElementById('dump-list');if(!el)return;
+  const cnt=document.getElementById('dump-count');
+  if(cnt)cnt.textContent=state.dump.length===0?'empty':state.dump.length===1?'1 entry':`${state.dump.length} entries`;
+  if(!state.dump.length){el.innerHTML='<div class="empty">Nothing here yet — just start writing</div>';return;}
+  el.innerHTML=state.dump.map(e=>`
+    <div class="dump-entry">
+      <button class="dump-del" onclick="deleteDump('${e.id}')">×</button>
+      <div class="dump-date">${e.mood?e.mood+' ':''} ${escHtml(e.date)}</div>
+      <div class="dump-text">${escHtml(e.text)}</div>
+    </div>`).join('');
+}
+function deleteDump(id){
+  state.dump=state.dump.filter(e=>e.id!==id);save_nl('dump');renderDump();renderDash();toast('Removed');
+}
+
+// ── REMINDERS ──────────────────────────────────────────────────
+function renderReminders(){
+  const el=document.getElementById('reminders-list');if(!el)return;
+  if(!state.reminders.length){el.innerHTML='<div class="empty">No reminders yet</div>';return;}
+  el.innerHTML=state.reminders.map(r=>`
+    <div class="reminder-item">
+      <div class="reminder-dot" style="background:${r.color||'var(--green)'}"></div>
+      <div class="reminder-body">
+        <div class="reminder-title editable" onclick="editReminder('${r.id}','title',this)">${escHtml(r.title)}</div>
+        <div class="reminder-due${r.color==='var(--red)'?' urgent':''} editable" onclick="editReminder('${r.id}','due',this)">${r.due?escHtml(r.due):'no date set'}</div>
+      </div>
+      <button class="reminder-del" onclick="deleteReminder('${r.id}')">×</button>
+    </div>`).join('');
+}
+function editReminder(id,field,el){
+  const r=state.reminders.find(x=>x.id===id);if(!r)return;
+  const input=document.createElement('input');input.className='inline-edit';input.value=r[field]||'';
+  el.replaceWith(input);input.focus();input.select();
+  function save(){const v=input.value.trim();r[field]=v;save_nl('reminders');renderReminders();}
+  input.addEventListener('blur',save);input.addEventListener('keydown',e=>{if(e.key==='Enter')input.blur();if(e.key==='Escape')renderReminders();});
+}
+function addReminder(){
+  const t=document.getElementById('new-rem-title'),d=document.getElementById('new-rem-due'),c=document.getElementById('new-rem-color');
+  if(!t)return;const title=t.value.trim();if(!title)return;
+  const r={id:uid(),title,due:d?d.value.trim():'',color:c?c.value:'var(--green)'};
+  state.reminders.push(r);save_nl('reminders');renderReminders();renderDash();
+  t.value='';if(d)d.value='';toast('Added');
+}
+function deleteReminder(id){state.reminders=state.reminders.filter(r=>r.id!==id);save_nl('reminders');renderReminders();renderDash();toast('Removed');}
+
+// ── RECURRING ──────────────────────────────────────────────────
+function renderRecurring(){
+  const el=document.getElementById('recurring-list');if(!el)return;
+  if(!state.recurring.length){el.innerHTML='<div class="empty">No recurring items yet</div>';return;}
+  el.innerHTML=state.recurring.map(r=>`
+    <div class="reminder-item">
+      <div class="reminder-dot" style="background:var(--sky)"></div>
+      <div class="reminder-body">
+        <div class="reminder-title editable" onclick="editRecurring('${r.id}','title',this)">${escHtml(r.title)}</div>
+        <div class="reminder-due">
+          <span class="recur-badge" onclick="cycleRecurFreq('${r.id}')">${escHtml(r.freq)}</span>
+          <span style="font-size:11px;color:var(--text3);margin-left:4px">${r.day?escHtml(r.day):''}</span>
+          ${r.lastDone?`<span style="font-size:11px;color:var(--text3)"> · last: ${escHtml(r.lastDone)}</span>`:''}
+        </div>
+      </div>
+      <button class="selfcare-done-btn" onclick="doneRecurring('${r.id}')">✓ Done</button>
+      <button class="reminder-del" onclick="deleteRecurring('${r.id}')">×</button>
+    </div>`).join('');
+}
+function editRecurring(id,field,el){
+  const r=state.recurring.find(x=>x.id===id);if(!r)return;
+  const input=document.createElement('input');input.className='inline-edit';input.value=r[field]||'';
+  el.replaceWith(input);input.focus();input.select();
+  function save(){const v=input.value.trim();if(v)r[field]=v;save_nl('recurring');renderRecurring();}
+  input.addEventListener('blur',save);input.addEventListener('keydown',e=>{if(e.key==='Enter')input.blur();if(e.key==='Escape')renderRecurring();});
+}
+function cycleRecurFreq(id){
+  const r=state.recurring.find(x=>x.id===id);if(!r)return;
+  const freqs=['Daily','Weekly','Monthly','Quarterly','Yearly'];
+  r.freq=freqs[(freqs.indexOf(r.freq||'Weekly')+1)%freqs.length];
+  save_nl('recurring');renderRecurring();toast(r.freq);
+}
+function doneRecurring(id){
+  const r=state.recurring.find(x=>x.id===id);if(!r)return;
+  r.lastDone=todayLabel();save_nl('recurring');renderRecurring();toast('Done ✓');
+}
+function addRecurring(){
+  const t=document.getElementById('new-recur-title'),f=document.getElementById('new-recur-freq'),d=document.getElementById('new-recur-day');
+  if(!t)return;const title=t.value.trim();if(!title)return;
+  const r={id:uid(),title,freq:f?f.value:'Weekly',day:d?d.value.trim():'',lastDone:''};
+  state.recurring.push(r);save_nl('recurring');renderRecurring();renderDash();
+  t.value='';if(d)d.value='';toast('Added');
+}
+function deleteRecurring(id){state.recurring=state.recurring.filter(r=>r.id!==id);save_nl('recurring');renderRecurring();renderDash();toast('Removed');}
+
+// ── SAVE WRAPPER ───────────────────────────────────────────────
+function save_nl(k){localStorage.setItem('nl_'+k,JSON.stringify(state[k]));}
+
+// ── INIT ───────────────────────────────────────────────────────
+// ── DAILY ROUTINES ─────────────────────────────────────────────
+function saveRoutines(){localStorage.setItem('nl_routines',JSON.stringify(state.routines));}
+
+function autoResetRoutines(){
+  // Reset all routine items at midnight each day
+  const today=todayStr();
+  if(state.routines.lastReset!==today){
+    ['morning','afterwork','night'].forEach(key=>{
+      (state.routines[key]||[]).forEach(item=>item.done=false);
+    });
+    state.routines.lastReset=today;
+    saveRoutines();
+  }
+}
+
+function renderRoutines(){
+  autoResetRoutines();
+  renderRoutineList('morning','routine-morning-list');
+  renderRoutineList('afterwork','routine-afterwork-list');
+  renderRoutineList('night','routine-night-list');
+}
+
+function renderRoutineList(key,elId){
+  const el=document.getElementById(elId);if(!el)return;
+  const items=state.routines[key]||[];
+  const done=items.filter(i=>i.done).length;
+  el.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+    <span style="font-size:11px;color:var(--text3)">${done}/${items.length} done</span>
+    <button class="routine-reset-btn" onclick="resetRoutine('${key}')">Reset</button>
+  </div>`+items.map(item=>`
+    <div class="routine-item">
+      <div class="routine-check${item.done?' done':''}" onclick="toggleRoutineItem('${key}','${item.id}')"></div>
+      <div class="routine-text${item.done?' done':''}">${escHtml(item.text)}</div>
+    </div>`).join('');
+}
+
+function toggleRoutineItem(key,id){
+  const item=(state.routines[key]||[]).find(x=>x.id===id);if(!item)return;
+  item.done=!item.done;
+  saveRoutines();renderRoutineList(key,'routine-'+key+'-list');
+  if(item.done)toast('✓ Done');
+}
+
+function resetRoutine(key){
+  (state.routines[key]||[]).forEach(i=>i.done=false);
+  saveRoutines();renderRoutineList(key,'routine-'+key+'-list');toast('Reset');
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  const now=new Date();
+  const DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const el=document.getElementById('home-date');
+  if(el)el.textContent=DAYS[now.getDay()]+', '+MONTHS[now.getMonth()]+' '+now.getDate();
+  renderAll();
+});
+</script>
+</body>
+</html>
