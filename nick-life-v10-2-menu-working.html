@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"/>
+<meta name="theme-color" content="#f6f7f8"/>
+<title>Nick Life</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{
+  --bg:#f4f3ef;--surface:#fbfaf7;--text:#26312d;--muted:#7a817d;--line:#e6e4dd;
+  --ink:#315f4b;--green:#3f7b60;--green2:#e5f0e9;--blue:#587ba5;--blue2:#e8eff7;
+  --violet:#806ca0;--violet2:#eee9f4;--orange:#a77545;--orange2:#f5eadf;
+  --red:#a44b4b;--shadow:0 10px 30px rgba(19,24,35,.07);
+  --r:22px;--safe:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box} html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",Inter,system-ui,sans-serif}
+body{min-height:100vh;padding-bottom:calc(92px + var(--safe))}
+button,input{font:inherit}.app{max-width:520px;margin:auto;min-height:100vh}
+.top{padding:calc(82px + env(safe-area-inset-top,0px)) 20px 10px}.eyebrow{font-size:13px;color:var(--muted);font-weight:600;letter-spacing:.01em}
+h1{font-size:34px;line-height:1.05;letter-spacing:-1.1px;margin:5px 0 5px}.sub{font-size:15px;color:var(--muted)}
+.hero{margin:12px 16px 18px;background:linear-gradient(145deg,#17191e,#292d35);color:white;border-radius:28px;padding:22px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:170px;height:170px;border-radius:50%;right:-65px;top:-70px;background:rgba(255,255,255,.08)}
+.hero-kicker{font-size:12px;opacity:.65;font-weight:700;text-transform:uppercase;letter-spacing:.08em}.hero-title{font-size:23px;font-weight:750;letter-spacing:-.5px;margin:7px 0}.hero-sub{font-size:14px;line-height:1.45;opacity:.78;max-width:82%}
+.hero-action{margin-top:17px;border:0;background:white;color:#17191e;border-radius:14px;padding:10px 14px;font-weight:700}
+.section{padding:0 16px;margin:20px 0}.section-head{display:flex;justify-content:space-between;align-items:end;padding:0 4px 9px}.section-title{font-size:19px;font-weight:750;letter-spacing:-.25px}.section-link{font-size:13px;color:var(--blue);font-weight:650;border:0;background:none}
+.group{background:var(--surface);border-radius:22px;overflow:hidden;box-shadow:0 1px 0 rgba(0,0,0,.03)}
+.row{display:flex;align-items:center;gap:13px;min-height:61px;padding:10px 14px;border-bottom:1px solid var(--line)}.row:last-child{border-bottom:0}
+.icon{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-size:17px;font-weight:800}.i-green{background:var(--green2);color:var(--green)}.i-blue{background:var(--blue2);color:var(--blue)}.i-violet{background:var(--violet2);color:var(--violet)}.i-orange{background:var(--orange2);color:var(--orange)}
+.row-main{flex:1;min-width:0}.row-title{font-size:15px;font-weight:650}.row-sub{font-size:12.5px;color:var(--muted);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.chev{color:#b6b9c0;font-size:20px}
+.check{width:25px;height:25px;border-radius:50%;border:2px solid #d5d7dc;background:white;flex:0 0 auto}.check.done{background:var(--green);border-color:var(--green);position:relative}.check.done:after{content:"✓";position:absolute;color:white;font-weight:800;left:5px;top:0px}
+.pulse{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.pulse-card{background:white;border-radius:19px;padding:14px;min-height:104px}.pulse-label{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.05em}.pulse-num{font-size:24px;font-weight:780;margin:8px 0 2px;letter-spacing:-.5px}.pulse-sub{font-size:11.5px;color:var(--muted)}
+.ring{--p:65;width:58px;height:58px;border-radius:50%;background:conic-gradient(var(--green) calc(var(--p)*1%),#e9ebee 0);display:grid;place-items:center}.ring:after{content:"";width:46px;height:46px;background:white;border-radius:50%}.health-summary{display:flex;align-items:center;gap:15px;padding:15px}
+.health-text{flex:1}.health-big{font-size:18px;font-weight:750}.health-small{font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.35}
+.chips{display:flex;gap:8px;overflow:auto;padding:1px 1px 5px;scrollbar-width:none}.chip{white-space:nowrap;background:white;border:0;border-radius:18px;padding:13px 15px;box-shadow:0 1px 0 rgba(0,0,0,.04);font-size:13px;font-weight:650}.chip.on{background:var(--ink);color:white}
+.life-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.life-card{border:0;text-align:left;background:white;border-radius:22px;padding:17px;min-height:132px;box-shadow:0 1px 0 rgba(0,0,0,.03)}.life-symbol{width:39px;height:39px;border-radius:12px;display:grid;place-items:center;margin-bottom:20px;font-size:18px}.life-title{font-size:16px;font-weight:740}.life-sub{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.3}
+.tabbar{position:fixed;z-index:20;left:50%;transform:translateX(-50%);bottom:calc(10px + var(--safe));width:min(calc(100% - 24px),496px);background:rgba(250,250,251,.88);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(0,0,0,.06);border-radius:24px;display:grid;grid-template-columns:repeat(4,1fr);padding:7px;box-shadow:0 12px 34px rgba(18,22,31,.13)}
+.tab{border:0;background:none;border-radius:17px;padding:7px 3px;color:#8a8e96;font-size:10.5px;font-weight:650}.tab b{display:block;font-size:19px;line-height:20px;margin-bottom:3px;font-weight:600}.tab.active{background:white;color:var(--ink);box-shadow:0 2px 9px rgba(0,0,0,.07)}
+.page{display:none}.page.active{display:block}.sheet-wrap{position:fixed;inset:0;z-index:50;background:rgba(16,18,22,.35);display:none;align-items:flex-end}.sheet-wrap.show{display:flex}.sheet{width:min(100%,520px);margin:auto;background:#f7f7f9;border-radius:28px 28px 0 0;max-height:85vh;overflow:auto;padding:10px 16px calc(24px + var(--safe));box-shadow:0 -15px 50px rgba(0,0,0,.15)}.grab{width:38px;height:5px;border-radius:4px;background:#d4d5d8;margin:2px auto 16px}.sheet h2{font-size:26px;margin:0 3px 15px;letter-spacing:-.6px}.empty{padding:22px;text-align:center;color:var(--muted);font-size:14px}
+.progressbar{height:7px;border-radius:8px;background:#eceef1;overflow:hidden;margin-top:9px}.progressbar span{display:block;height:100%;background:var(--green);border-radius:8px}
+.smallcaps{font-size:11px;font-weight:750;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+
+html[data-theme="stone"]{
+  --bg:#f4f1eb;--surface:#fbfaf7;--text:#283039;--muted:#7d8186;--line:#e5e1d9;
+  --ink:#445466;--green:#6f927d;--green2:#e7efe9;--blue:#617fa7;--blue2:#e9eef6;
+  --violet:#8a75a5;--violet2:#efeaf4;--orange:#b07b55;--orange2:#f5ebe3;
+}
+html[data-theme="lavender"]{
+  --bg:#f4f1f8;--surface:#fcfbfd;--text:#2f2d39;--muted:#7f798a;--line:#e7e1ee;
+  --ink:#6c5a86;--green:#6f987f;--green2:#e8f1eb;--blue:#6d82b4;--blue2:#ebeff8;
+  --violet:#8f72b2;--violet2:#eee7f7;--orange:#b27d62;--orange2:#f7ece6;
+}
+html[data-theme="blue"]{
+  --bg:#f1f4f8;--surface:#fbfcfe;--text:#28323e;--muted:#77828e;--line:#e1e7ee;
+  --ink:#4c6b8e;--green:#6f927d;--green2:#e7efe9;--blue:#527aa7;--blue2:#e5edf7;
+  --violet:#7e75a6;--violet2:#eceaf4;--orange:#aa7858;--orange2:#f5ebe4;
+}
+html[data-theme="rose"]{
+  --bg:#f7f2f2;--surface:#fffafa;--text:#332d31;--muted:#867b80;--line:#eadfe2;
+  --ink:#8a5f6f;--green:#78927f;--green2:#e9f0ea;--blue:#6d80a4;--blue2:#e9edf5;
+  --violet:#90759a;--violet2:#f0e9f2;--orange:#b27a61;--orange2:#f7eae4;
+}
+html[data-theme="midnight"]{
+  --bg:#15171b;--surface:#202329;--text:#f4f5f7;--muted:#a1a5ad;--line:#30343b;
+  --ink:#7da2c7;--green:#78a58b;--green2:#21372c;--blue:#7da1cb;--blue2:#223247;
+  --violet:#a08bc2;--violet2:#2d2638;--orange:#c28a66;--orange2:#3b2c23;
+}
+
+.theme-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.theme-option{border:1px solid var(--line);background:var(--surface);border-radius:18px;padding:14px;text-align:left;color:var(--text)}
+.theme-option.active{outline:2px solid var(--ink)}
+.theme-swatch{height:52px;border-radius:14px;margin-bottom:10px}
+.sw-stone{background:linear-gradient(135deg,#eee9df,#7d8da0)}
+.sw-lavender{background:linear-gradient(135deg,#ece4f2,#8b6ea0)}
+.sw-blue{background:linear-gradient(135deg,#dce8f1,#6381a1)}
+.sw-rose{background:linear-gradient(135deg,#f0dfe3,#8a5c68)}
+.sw-midnight{background:linear-gradient(135deg,#1b1e24,#647d96)}
+
+
+/* ── Editorial visual system ───────────────────────── */
+:root{
+  --radius-xl:22px;--radius-lg:18px;--radius-md:14px;
+  --hero-a:#d9d8e8;--hero-b:#d8e6e1;--hero-c:#eee5dc;
+  --accent-strong:var(--ink);--selected-bg:var(--blue2);--selected-fg:var(--blue);
+}
+html[data-theme="stone"]{
+  --bg:#f3f0ea;--surface:#fbfaf7;--text:#262b31;--muted:#7b7f84;--line:#e4dfd7;
+  --ink:#38485a;--green:#748f7a;--green2:#e7eee8;--blue:#5f7894;--blue2:#e8edf2;
+  --violet:#7c718c;--violet2:#ece9f0;--orange:#a27759;--orange2:#f1e8e1;
+  --hero-a:#d8dee6;--hero-b:#e4e0d8;--hero-c:#e8e2eb;--selected-bg:#e7ebf0;--selected-fg:#435c79;
+}
+html[data-theme="lavender"]{
+  --bg:#f2f0f5;--surface:#fbfafc;--text:#2e2a34;--muted:#80798a;--line:#e4dfeb;
+  --ink:#645173;--green:#789280;--green2:#e7efe9;--blue:#6f7fa2;--blue2:#e9edf5;
+  --violet:#80669a;--violet2:#ece6f3;--orange:#a17761;--orange2:#f3e8e3;
+  --hero-a:#ded6ea;--hero-b:#e9e2ef;--hero-c:#e0e5ef;--selected-bg:#ebe4f2;--selected-fg:#6c5483;
+}
+html[data-theme="blue"]{
+  --bg:#eff3f6;--surface:#fbfcfd;--text:#25303a;--muted:#75808b;--line:#dfe6ec;
+  --ink:#47647f;--green:#748f7d;--green2:#e5eee8;--blue:#53789d;--blue2:#e3ebf3;
+  --violet:#7d7591;--violet2:#ebe9f0;--orange:#a2765d;--orange2:#f0e7e1;
+  --hero-a:#cfddea;--hero-b:#d9e6e4;--hero-c:#e7e3dc;--selected-bg:#e0e9f2;--selected-fg:#466b8f;
+}
+html[data-theme="rose"]{
+  --bg:#f5f1f2;--surface:#fdfafa;--text:#312a2e;--muted:#82787d;--line:#e8dfe2;
+  --ink:#7a5663;--green:#7c9281;--green2:#e9efea;--blue:#6e7f9d;--blue2:#e8ecf3;
+  --violet:#8a748f;--violet2:#efe9f0;--orange:#aa7560;--orange2:#f4e8e3;
+  --hero-a:#ead8dd;--hero-b:#e8e0e8;--hero-c:#eee4dc;--selected-bg:#f0e3e7;--selected-fg:#7b5864;
+}
+html[data-theme="midnight"]{
+  --bg:#14161a;--surface:#1f2227;--text:#f2f3f5;--muted:#9ca1a8;--line:#30343a;
+  --ink:#9ab1c7;--green:#7fa18b;--green2:#22362b;--blue:#87a2c0;--blue2:#253445;
+  --violet:#a18fb1;--violet2:#302a37;--orange:#bc8b6d;--orange2:#3b2f28;
+  --hero-a:#273443;--hero-b:#2f3c38;--hero-c:#3a3035;--selected-bg:#27384a;--selected-fg:#a6bdd4;
+}
+.editorial-hero{margin:12px 16px 16px;border-radius:24px;min-height:220px;padding:24px;position:relative;overflow:hidden;background:linear-gradient(145deg,var(--hero-a),var(--hero-b) 58%,var(--hero-c));box-shadow:0 12px 30px rgba(28,32,38,.08)}
+.editorial-copy{position:relative;z-index:3;max-width:64%}
+.editorial-kicker{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.editorial-title{font-size:27px;line-height:1.07;font-weight:760;letter-spacing:-.8px;margin:9px 0 8px;color:var(--text)}
+.editorial-sub{font-size:13px;line-height:1.5;color:var(--muted)}
+.editorial-art{position:absolute;inset:0;pointer-events:none}
+.orb{position:absolute;border-radius:50%;filter:blur(.2px);opacity:.72}
+.orb-a{width:132px;height:132px;right:28px;top:26px;background:rgba(255,255,255,.52)}
+.orb-b{width:96px;height:96px;right:-12px;bottom:18px;background:rgba(255,255,255,.28)}
+.orb-c{width:54px;height:54px;right:98px;bottom:30px;background:rgba(255,255,255,.18)}
+.fine-line{position:absolute;width:150px;height:1px;right:18px;bottom:64px;background:rgba(255,255,255,.7);transform:rotate(-18deg);transform-origin:right center}
+.editorial-note{margin:0 16px 18px;padding:15px 17px;border-radius:18px;background:var(--surface);border:1px solid var(--line)}
+.editorial-note b{font-size:15px;line-height:1.4;color:var(--text)}
+.editorial-note div{font-size:12px;color:var(--muted);margin-top:5px}
+.hero{background:linear-gradient(145deg,var(--blue),var(--violet));color:#fff;border-radius:22px}
+.hero-action{background:rgba(255,255,255,.16);color:white;border:1px solid rgba(255,255,255,.25)}
+.life-card{border-radius:18px;background:var(--surface)}
+.group{border-radius:18px}
+.pulse-card{border-radius:16px}
+.tabbar{border-radius:20px}
+.tab{border-radius:14px}
+.tab.active{background:var(--selected-bg);color:var(--selected-fg);box-shadow:none}
+.chip.on{background:var(--selected-bg);color:var(--selected-fg);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--selected-fg) 18%, transparent)}
+.theme-option.active{outline:2px solid var(--selected-fg);outline-offset:1px}
+
+
+.daily-line{margin:4px 20px 14px;display:flex;gap:10px;align-items:flex-start;color:var(--muted)}
+.daily-line .daily-mark{color:var(--violet);font-weight:800}
+.daily-line b{display:block;color:var(--text);font-size:13.5px;line-height:1.35;font-weight:700}
+.daily-line span:not(.daily-mark){display:block;font-size:11.5px;margin-top:3px}
+.routine-row{cursor:pointer}
+.routine-progress{font-size:12px;color:var(--muted);font-weight:650}
+.routine-detail{display:none;background:color-mix(in srgb,var(--surface) 88%,var(--bg));border-top:1px solid var(--line)}
+.routine-detail.open{display:block}
+.mini-row{display:flex;align-items:center;gap:11px;padding:10px 14px;border-bottom:1px solid var(--line);font-size:13.5px}
+.mini-row:last-child{border-bottom:0}
+.mini-dot{width:20px;height:20px;border-radius:50%;border:1.7px solid #c9cdd2;display:grid;place-items:center;font-size:11px;flex:0 0 auto}
+.mini-dot.done{background:var(--green);border-color:var(--green);color:white}
+.due-pill{font-size:10.5px;font-weight:700;padding:4px 7px;border-radius:9px;background:var(--orange2);color:var(--orange)}
+
+
+
+.menu-panel{position:fixed;inset:0;z-index:70;display:none;background:rgba(16,18,22,.28);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.menu-panel.show{display:block}
+.menu-drawer{position:absolute;left:0;top:0;bottom:0;width:min(88vw,390px);background:var(--bg);padding:calc(22px + env(safe-area-inset-top,0px)) 16px calc(28px + env(safe-area-inset-bottom,0px));overflow:auto;box-shadow:14px 0 44px rgba(0,0,0,.16)}
+.menu-top{display:flex;align-items:center;justify-content:space-between;padding:0 4px 14px}
+.menu-title{font-size:26px;font-weight:780;letter-spacing:-.6px}
+.menu-close{border:0;background:var(--surface);color:var(--text);width:36px;height:36px;border-radius:12px;font-size:18px}
+.menu-section{margin:16px 0}
+.menu-label{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:0 8px 7px}
+.menu-list{background:var(--surface);border-radius:18px;overflow:hidden;border:1px solid var(--line)}
+.menu-item{width:100%;border:0;background:transparent;color:var(--text);display:flex;align-items:center;gap:12px;text-align:left;padding:12px 13px;border-bottom:1px solid var(--line)}
+.menu-item:last-child{border-bottom:0}
+.menu-item .micon{width:32px;height:32px;border-radius:10px;background:var(--blue2);color:var(--blue);display:grid;place-items:center;font-size:14px;font-weight:800}
+.menu-item .mtext{flex:1}
+.menu-item .mtitle{font-size:14px;font-weight:700}
+.menu-item .msub{font-size:11.5px;color:var(--muted);margin-top:2px}
+.menu-item .mchev{font-size:19px;color:#b4b8be}
+
+
+.appbar{
+ position:fixed;top:0;left:50%;transform:translateX(-50%);z-index:60;
+ width:min(100%,520px);height:calc(62px + env(safe-area-inset-top,0px));
+ padding:calc(10px + env(safe-area-inset-top,0px)) 16px 8px;
+ display:grid;grid-template-columns:44px 1fr 44px;align-items:center;
+ background:color-mix(in srgb,var(--bg) 88%, transparent);
+ backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+ border-bottom:1px solid color-mix(in srgb,var(--line) 70%, transparent);
+}
+.appbar-brand{text-align:center;font-size:15px;font-weight:780;letter-spacing:-.2px;color:var(--text)}
+.appbar-btn{
+ width:40px;height:40px;border:1px solid var(--line);border-radius:13px;
+ background:var(--surface);color:var(--text);font-size:18px;display:grid;place-items:center;
+ padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;
+}
+.appbar-btn:active{transform:scale(.96);background:var(--selected-bg)}
+
+</style>
+</head>
+<body>
+<div class="appbar">
+  <button id="menuButton" class="appbar-btn" type="button" aria-label="Open menu">☰</button>
+  <div class="appbar-brand">Nick Life</div>
+  <button id="themeButton" class="appbar-btn" type="button" aria-label="Change theme">◐</button>
+</div>
+<div class="app">
+<section id="today" class="page active">
+  <header class="top">
+    <div class="eyebrow" id="dateLabel"></div>
+    <h1 id="greeting">Good evening.</h1>
+    <div class="sub">Here’s what deserves your attention.</div>
+  </header>
+
+  <div class="daily-line">
+    <span class="daily-mark">—</span>
+    <div><b id="dailyInspiration">Make today a little easier on tomorrow.</b>
+    <span id="inspirationContext">Your direction matters more than a perfect day.</span></div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-kicker">For you</div>
+    <div class="hero-title" id="heroTitle">One useful next move.</div>
+    <div class="hero-sub" id="heroSub">Loading your life…</div>
+    <button class="hero-action" onclick="openSheet('forYou')">See why</button>
+  </div>
+
+  <section class="section">
+    <div class="section-head"><div class="section-title">Tonight</div><button class="section-link" onclick="openSheet('tasks')">See all</button></div>
+    <div class="group" id="todayRows"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><div class="section-title">Your pulse</div><button class="section-link" onclick="go('progress')">Progress</button></div>
+    <div class="pulse">
+      <div class="pulse-card"><div class="pulse-label">Health</div><div class="pulse-num" id="healthPulse">—</div><div class="pulse-sub">choices today</div></div>
+      <div class="pulse-card"><div class="pulse-label">Week</div><div class="pulse-num" id="weekPulse">—</div><div class="pulse-sub">priorities</div></div>
+      <div class="pulse-card"><div class="pulse-label">Next</div><div class="pulse-num" id="nextPulse">—</div><div class="pulse-sub" id="nextPulseSub">upcoming</div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><div class="section-title">Routines</div><button class="section-link" onclick="openSheet('routines')">See all</button></div>
+    <div class="group" id="routineGroups"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><div class="section-title">Reminders</div><button class="section-link" onclick="go('plan')">View all</button></div>
+    <div class="group" id="reminderRows"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><div class="section-title">Health today</div><button class="section-link" onclick="go('progress')">Journey</button></div>
+    <div class="chips" id="habitChips"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><div class="section-title">Coming up</div><button class="section-link" onclick="go('plan')">Plan</button></div>
+    <div class="group" id="upcomingRows"></div>
+  </section>
+</section>
+
+<section id="plan" class="page">
+  <header class="top"><div class="eyebrow">Organize without overthinking</div><h1>Plan</h1><div class="sub">Tasks, projects, trips and the week ahead.</div></header>
+  <section class="section"><div class="section-head"><div class="section-title">This week</div></div><div class="group" id="priorityRows"></div></section>
+  <section class="section"><div class="section-head"><div class="section-title">Tasks</div></div><div class="group" id="planTasks"></div></section>
+  <section class="section"><div class="section-head"><div class="section-title">Reminders</div></div><div class="group" id="planReminders"></div></section>
+  <section class="section"><div class="section-head"><div class="section-title">Trips & events</div></div><div class="group" id="planTrips"></div></section>
+</section>
+
+<section id="life" class="page">
+  <header class="top"><div class="eyebrow">The bigger picture</div><h1>Life</h1><div class="sub">Everything you’re building, in one place.</div></header>
+  <div class="quote"><b>Make room for the life outside the checklist.</b><div>Home, family, career, hobbies and experiences all belong here.</div></div>
+  <section class="section">
+    <div class="life-grid">
+      <button class="life-card" onclick="openLife('Health & Me')"><div class="life-symbol i-green">♥</div><div class="life-title">Health & Me</div><div class="life-sub">Nutrition, movement, routines and self-care</div></button>
+      <button class="life-card" onclick="openLife('Family')"><div class="life-symbol i-violet">⌂</div><div class="life-title">Family</div><div class="life-sub">Adoption, relationships and what matters most</div></button>
+      <button class="life-card" onclick="openLife('Home')"><div class="life-symbol i-orange">⌂</div><div class="life-title">Home</div><div class="life-sub">Projects, garden and improvements</div></button>
+      <button class="life-card" onclick="openLife('Career')"><div class="life-symbol i-blue">↗</div><div class="life-title">Career</div><div class="life-sub">Wins, growth and professional goals</div></button>
+      <button class="life-card" onclick="openLife('My Time')"><div class="life-symbol i-violet">✦</div><div class="life-title">My Time</div><div class="life-sub">Games, reading, music, birds and hobbies</div></button>
+      <button class="life-card" onclick="openLife('Experiences')"><div class="life-symbol i-blue">◇</div><div class="life-title">Experiences</div><div class="life-sub">Trips, concerts, weddings and memories</div></button>
+    </div>
+  </section>
+</section>
+
+<section id="progress" class="page">
+  <header class="top"><div class="eyebrow">Direction, not perfection</div><h1>Progress</h1><div class="sub">A quieter view of how your life is moving.</div></header>
+  <div class="quote"><b>You don’t need a perfect week to be moving forward.</b><div>Look for consistency, momentum and choices you want to repeat.</div></div>
+  <section class="section"><div class="section-head"><div class="section-title">Health journey</div></div><div class="group">
+    <div class="health-summary"><div class="ring" id="healthRing"></div><div class="health-text"><div class="health-big" id="healthHeadline">Building consistency</div><div class="health-small">Movement, nutrition, alcohol, vaping, water and personal time all count toward the direction you’re heading.</div></div></div>
+  </div></section>
+  <section class="section"><div class="section-head"><div class="section-title">Weight direction</div></div><div class="group"><div class="row"><div class="row-main"><div class="smallcaps">Current → Goal</div><div class="row-title" style="font-size:22px;margin-top:5px" id="weightLine">—</div><div class="progressbar"><span id="weightBar" style="width:0%"></span></div></div></div></div></section>
+  <section class="section"><div class="section-head"><div class="section-title">Weekly reset</div></div><div class="group" id="resetRows"></div></section>
+  <section class="section"><div class="section-head"><div class="section-title">Doctor program</div></div><div class="group"><div class="row" onclick="openSheet('doctor')"><div class="icon i-green">＋</div><div class="row-main"><div class="row-title">Nutrition & health program</div><div class="row-sub">Ready whenever you decide to join</div></div><div class="chev">›</div></div></div></section>
+</section>
+</div>
+
+
+<div class="menu-panel" id="menuPanel" onclick="if(event.target===this)closeMenu()">
+  <aside class="menu-drawer">
+    <div class="menu-top">
+      <div>
+        <div class="smallcaps">Nick Life</div>
+        <div class="menu-title">Menu</div>
+      </div>
+      <button class="menu-close" type="button" onclick="closeMenu()">×</button>
+    </div>
+
+    <div class="menu-section">
+      <div class="menu-label">Daily</div>
+      <div class="menu-list">
+        <button class="menu-item" onclick="menuGo('today')"><span class="micon">⌂</span><span class="mtext"><span class="mtitle">Today</span><span class="msub">Your current flow</span></span><span class="mchev">›</span></button>
+        <button class="menu-item" onclick="menuSheet('routines')"><span class="micon">↻</span><span class="mtext"><span class="mtitle">Routines</span><span class="msub">Morning, after work, night and care</span></span><span class="mchev">›</span></button>
+        <button class="menu-item" onclick="menuGo('plan')"><span class="micon">!</span><span class="mtext"><span class="mtitle">Reminders</span><span class="msub">Things to keep on your radar</span></span><span class="mchev">›</span></button>
+        <button class="menu-item" onclick="menuGo('progress')"><span class="micon">♥</span><span class="mtext"><span class="mtitle">Health Journey</span><span class="msub">Habits, weight and progress</span></span><span class="mchev">›</span></button>
+      </div>
+    </div>
+
+    <div class="menu-section">
+      <div class="menu-label">Life</div>
+      <div class="menu-list">
+        <button class="menu-item" onclick="menuLife('Health & Me')"><span class="micon">＋</span><span class="mtext"><span class="mtitle">Self Care & Health</span><span class="msub">Wellness, routines and doctor program</span></span><span class="mchev">›</span></button>
+        <button class="menu-item" onclick="menuLife('Home')"><span class="micon">⌂</span><span class="mtext"><span class="mtitle">Home Projects</span><span class="msub">House, yard and improvements</span></span><span class="mchev">›</span></button>
+        <button class="menu-item" onclick="menuLife('Career')"><span class="micon">↗</span><span class="mtext"><span class="mtitle">Career</span><span class="msub">Wins, goals and growth</span></span><span class="mchev">›</span></button>
+        <button class="menu-item" onclick="menuLife('My Time')"><span class="micon">✦</span><span class="mtext"><span class="mtitle">Hobbies</span><span class="msub">Games, music, reading, gardening and birds</span></span><span class="mchev">›</span></button>
+        <button class="menu-item" onclick="menuLife('Family')"><span class="micon">♡</span><span class="mtext"><span class="mtitle">Family</span><span class="msub">Adoption and shared life</span></span><span class="mchev">›</span></button>
+      </div>
+    </div>
+
+    <div class="menu-section">
+      <div class="menu-label">Planning</div>
+      <div class="menu-list">
+        <button class="menu-item" onclick="menuGo('plan')"><span class="micon">✓</span><span class="mtext"><span class="mtitle">Tasks & Projects</span><span class="msub">One-offs, projects and priorities</span></span><span class="mchev">›</span></button>
+        <button class="menu-item" onclick="menuLife('Experiences')"><span class="micon">◇</span><span class="mtext"><span class="mtitle">Trips & Events</span><span class="msub">Travel, concerts, weddings and plans</span></span><span class="mchev">›</span></button>
+        <button class="menu-item" onclick="menuSheet('reset')"><span class="micon">3</span><span class="mtext"><span class="mtitle">Weekly Reset</span><span class="msub">Choose what matters this week</span></span><span class="mchev">›</span></button>
+      </div>
+    </div>
+
+    <div class="menu-section">
+      <div class="menu-label">App</div>
+      <div class="menu-list">
+        <button class="menu-item" onclick="closeMenu();openThemeSheet()"><span class="micon">◐</span><span class="mtext"><span class="mtitle">Appearance</span><span class="msub">Themes and visual style</span></span><span class="mchev">›</span></button>
+        <button class="menu-item" onclick="menuSheet('data')"><span class="micon">☁</span><span class="mtext"><span class="mtitle">Sync & Data</span><span class="msub">Supabase connection status</span></span><span class="mchev">›</span></button>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<nav class="tabbar">
+<button class="tab active" data-page="today" onclick="go('today')"><b>⌂</b>Today</button>
+<button class="tab" data-page="plan" onclick="go('plan')"><b>✓</b>Plan</button>
+<button class="tab" data-page="life" onclick="go('life')"><b>◫</b>Life</button>
+<button class="tab" data-page="progress" onclick="go('progress')"><b>◉</b>Progress</button>
+</nav>
+
+<div class="sheet-wrap" id="sheetWrap" onclick="if(event.target===this)closeSheet()"><div class="sheet"><div class="grab"></div><div id="sheetBody"></div></div></div>
+
+<script>
+const SB_URL='https://bhnupipukgotsecawnhl.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJobnVwaXB1a2dvdHNlY2F3bmhsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5MzUyNTAsImV4cCI6MjA5NjUxMTI1MH0.HPgjzZK2Ow-45kbD8DFvM5cMPaVqnuhc1tCv7wvFlOg';
+const TABLE='nl_sync'; let sb=null, D={}, V={habits:{},priorities:[],doctor:{}};
+const HABITS=[['movement','Move','↗'],['nutrition','Eat well','◇'],['alcohol','Alcohol goal','○'],['vaping','Vape goal','△'],['water','Water','≈'],['metime','Me time','✦']];
+const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+function localDate(){return new Date().toLocaleDateString('en-CA')}
+function parse(v,f){try{return JSON.parse(v)}catch{return f}}
+async function load(){
+ try{sb=window.supabase.createClient(SB_URL,SB_KEY);const {data}=await sb.from(TABLE).select('key,value,updated_at');(data||[]).forEach(r=>D[r.key]=parse(r.value,{}));V=D._v5||D._v4||V;V.habits=V.habits||{};V.priorities=V.priorities||[];render()}catch(e){render()}
+}
+async function saveV(){D._v5=V;if(sb)await sb.from(TABLE).upsert({key:'_v5',value:JSON.stringify(V),updated_at:new Date().toISOString()})}
+function daily(){return D._daily||{}}
+function tasks(){let a=[...(daily().today||[])];if(new Date().getHours()>=16)a.push(...(daily().evening||[]));else a.push(...(daily().morning||[]));return a.filter(x=>!x.done)}
+function trips(){return Array.isArray(D.trips)?D.trips:[]}
+function upcoming(){let now=new Date();now.setHours(0,0,0,0);return trips().map(t=>({...t,_d:new Date(t.date)})).filter(t=>t.date&&!isNaN(t._d)&&t._d>=now).sort((a,b)=>a._d-b._d)}
+function fmtDate(d){return d.toLocaleDateString(undefined,{month:'short',day:'numeric'})}
+function daysUntil(d){return Math.ceil((d-new Date().setHours(0,0,0,0))/86400000)}
+function row(title,sub,icon='✓',cls='i-blue',done=false){return `<div class="row"><div class="${done?'check done':'check'}"></div><div class="row-main"><div class="row-title">${esc(title)}</div>${sub?`<div class="row-sub">${esc(sub)}</div>`:''}</div></div>`}
+function infoRow(title,sub,icon='◇',cls='i-blue'){return `<div class="row"><div class="icon ${cls}">${icon}</div><div class="row-main"><div class="row-title">${esc(title)}</div><div class="row-sub">${esc(sub||'')}</div></div><div class="chev">›</div></div>`}
+
+function checklistData(){
+ const c=D.checklists||{};
+ return {
+  'Morning': Array.isArray(c.work)?c.work:(daily().morning||[]),
+  'After work': Array.isArray(c.afterwork)?c.afterwork:(daily().evening||[]),
+  'Night': Array.isArray(c.night)?c.night:[],
+  'Weekend': daily().weekend||[],
+  'Weekly care': [...(c.weekly||[]),...(c.bodycare||[])],
+  'Biweekly care': c.biweekly||[]
+ };
+}
+function routineGroupHtml(name,items,idx){
+ items=Array.isArray(items)?items:[];
+ const done=items.filter(x=>x.done).length,total=items.length;
+ const preview=items.filter(x=>!x.done).slice(0,2).map(x=>x.text).join(' · ');
+ return `<div class="row routine-row" onclick="toggleRoutine(${idx})">
+   <div class="icon ${done===total&&total?'i-green':'i-violet'}">${done===total&&total?'✓':'○'}</div>
+   <div class="row-main"><div class="row-title">${esc(name)}</div><div class="row-sub">${esc(preview || (total?'Complete':'No items'))}</div></div>
+   <div class="routine-progress">${done}/${total}</div><div class="chev">›</div>
+ </div>
+ <div class="routine-detail" id="routine-${idx}">${items.map(x=>`<div class="mini-row"><span class="mini-dot ${x.done?'done':''}">${x.done?'✓':''}</span><span>${esc(x.text)}</span></div>`).join('')||'<div class="empty">Nothing here yet.</div>'}</div>`;
+}
+function toggleRoutine(idx){
+ const el=document.getElementById('routine-'+idx); if(el) el.classList.toggle('open');
+}
+function reminders(){
+ return Array.isArray(D.reminders)?D.reminders:[];
+}
+function reminderHtml(r){
+ return `<div class="row"><div class="icon i-orange">!</div><div class="row-main"><div class="row-title">${esc(r.title||r.text||'Reminder')}</div><div class="row-sub">${esc(r.due?('Due '+r.due):'Keep on your radar')}</div></div>${r.due?`<span class="due-pill">${esc(r.due)}</span>`:''}</div>`;
+}
+
+function render(){
+ const n=new Date(),h=n.getHours();
+ const inspiration=[
+  ['Make today a little easier on tomorrow.','A few intentional choices are enough.'],
+  ['Build a life that feels good to live.','Health, family, growth — and room for fun.'],
+  ['Progress can be quiet and still be real.','Consistency matters more than intensity.'],
+  ['Your life is more than a to-do list.','Make space for something you enjoy today.']
+ ];
+ const iq=inspiration[n.getDay()%inspiration.length];
+ const qi=document.getElementById('dailyInspiration'), qc=document.getElementById('inspirationContext');
+ if(qi)qi.textContent=iq[0]; if(qc)qc.textContent=iq[1];document.getElementById('dateLabel').textContent=n.toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});
+ document.getElementById('greeting').textContent=(h<12?'Good morning.':h<17?'Good afternoon.':'Good evening.');
+ const ts=tasks(), ups=upcoming(), first=ups[0];
+ let heroTitle='Choose one thing that makes tomorrow easier.',heroSub='A small useful action is enough.';
+ if(first&&daysUntil(first._d)<=7){heroTitle=`${first.title} is ${daysUntil(first._d)===0?'today':daysUntil(first._d)+' days away'}.`;heroSub=first.notes||`Take one small step to get ready for ${first.title}.`}
+ else if(ts[0]){heroTitle=ts[0].text;heroSub='This is a good next move based on what is still open today.'}
+ document.getElementById('heroTitle').textContent=heroTitle;document.getElementById('heroSub').textContent=heroSub;
+ document.getElementById('todayRows').innerHTML=ts.slice(0,4).map(t=>row(t.text,'')).join('')||'<div class="empty">Nothing pressing right now.</div>';
+ const todayHab=V.habits[localDate()]||{};let hc=Object.values(todayHab).filter(Boolean).length;
+ document.getElementById('healthPulse').textContent=hc+'/6';document.getElementById('weekPulse').textContent=(V.priorities||[]).length+'/3';
+ document.getElementById('nextPulse').textContent=first?Math.max(0,daysUntil(first._d)):'—';document.getElementById('nextPulseSub').textContent=first?'days away':'upcoming';
+ document.getElementById('habitChips').innerHTML=HABITS.map(([k,l,i])=>`<button class="chip ${todayHab[k]?'on':''}" onclick="toggleHabit('${k}')">${i} ${l}${todayHab[k]?' ✓':''}</button>`).join('');
+ document.getElementById('upcomingRows').innerHTML=ups.slice(0,4).map((t,i)=>infoRow(t.title,`${fmtDate(t._d)}${t.location?' · '+t.location:''}`,i===0?'◇':'·',i===0?'i-blue':'i-violet')).join('')||'<div class="empty">Nothing dated is coming up.</div>';
+ const rg=checklistData();
+ document.getElementById('routineGroups').innerHTML=Object.entries(rg).map(([n,it],i)=>routineGroupHtml(n,it,i)).join('');
+ const rs=reminders();
+ document.getElementById('reminderRows').innerHTML=rs.slice(0,4).map(reminderHtml).join('')||'<div class="empty">No reminders right now.</div>';
+ renderPlan();renderProgress();
+}
+function renderPlan(){
+ const p=V.priorities||[];document.getElementById('priorityRows').innerHTML=p.map(x=>row(x,'Weekly priority')).join('')+`<div class="row" onclick="openSheet('reset')"><div class="icon i-blue">＋</div><div class="row-main"><div class="row-title">Set weekly priorities</div><div class="row-sub">Keep the week focused on three things</div></div><div class="chev">›</div></div>`;
+ let all=[...(D._oneoff||[]),...(D._notesTasks||[])].filter(x=>!x.done);document.getElementById('planTasks').innerHTML=all.slice(0,8).map(t=>row(t.text,'')).join('')||'<div class="empty">No open one-off tasks.</div>';
+ const prs=reminders();
+ document.getElementById('planReminders').innerHTML=prs.map(reminderHtml).join('')||'<div class="empty">No reminders.</div>';
+ document.getElementById('planTrips').innerHTML=upcoming().slice(0,8).map(t=>infoRow(t.title,`${fmtDate(t._d)}${t.location?' · '+t.location:''}`,'◇','i-violet')).join('')||'<div class="empty">No upcoming trips.</div>';
+}
+function renderProgress(){
+ const today=V.habits[localDate()]||{},hc=Object.values(today).filter(Boolean).length,pct=Math.round(hc/6*100);document.getElementById('healthRing').style.setProperty('--p',pct);document.getElementById('healthHeadline').textContent=pct>=80?'Strong day':pct>=50?'Building consistency':'A fresh chance today';
+ let metrics=Array.isArray(D.metrics)?D.metrics:[],cw=metrics.find(x=>/weight$/i.test(x.name)&&!/goal/i.test(x.name)),gw=metrics.find(x=>/goal weight/i.test(x.name));document.getElementById('weightLine').textContent=(cw?.value||'—')+' → '+(gw?.value||'—')+' lb';let cp=Number(cw?.value),gp=Number(gw?.value);document.getElementById('weightBar').style.width=(cp&&gp?Math.max(8,Math.min(92,100-Math.abs(cp-gp)*2.5)):0)+'%';
+ document.getElementById('resetRows').innerHTML=(V.priorities||[]).map(x=>infoRow(x,'This week','✓','i-green')).join('')||`<div class="row" onclick="openSheet('reset')"><div class="icon i-blue">＋</div><div class="row-main"><div class="row-title">Plan this week</div><div class="row-sub">Choose what deserves your attention</div></div><div class="chev">›</div></div>`;
+}
+async function toggleHabit(k){let d=localDate();V.habits[d]=V.habits[d]||{};V.habits[d][k]=!V.habits[d][k];await saveV();render()}
+function go(id){document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id===id));document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.page===id));scrollTo(0,0)}
+
+function openMenu(){
+ const panel=document.getElementById('menuPanel');
+ if(!panel) return;
+ panel.classList.add('show');
+ document.body.style.overflow='hidden';
+}
+function closeMenu(){
+ const panel=document.getElementById('menuPanel');
+ if(!panel) return;
+ panel.classList.remove('show');
+ document.body.style.overflow='';
+}
+function menuGo(id){closeMenu();go(id)}
+function menuSheet(kind){closeMenu();setTimeout(()=>openSheet(kind),80)}
+function menuLife(name){closeMenu();setTimeout(()=>openLife(name),80)}
+
+function openLife(name){document.getElementById('sheetBody').innerHTML=`<h2>${esc(name)}</h2><div class="group">${lifeContent(name)}</div>`;document.getElementById('sheetWrap').classList.add('show')}
+function lifeContent(n){
+ if(n==='Career'){let c=D.career||{};return [...(c.goals||[])].map(x=>infoRow(x.text,'Career goal','↗','i-blue')).join('')||'<div class="empty">Your career goals will appear here.</div>'}
+ if(n==='Home'){let cats=Array.isArray(D.taskCategories)?D.taskCategories:[];return cats.map(c=>infoRow(c.title,`${(c.tasks||[]).filter(x=>!x.done).length} open items`,'⌂','i-orange')).join('')||'<div class="empty">Home projects will appear here.</div>'}
+ if(n==='My Time'){let hs=Array.isArray(D.hobbies)?D.hobbies:[];return hs.map(h=>infoRow(h.name,`${(h.subs||[]).filter(x=>!x.done).length} things to explore`,'✦','i-violet')).join('')||'<div class="empty">Your hobbies will appear here.</div>'}
+ if(n==='Experiences')return upcoming().map(t=>infoRow(t.title,fmtDate(t._d),'◇','i-blue')).join('')||'<div class="empty">Upcoming experiences will appear here.</div>';
+ if(n==='Family')return infoRow('Family direction','Build a healthy, stable life prepared for adoption','♥','i-violet')+infoRow('Shared life','Trips, plans and meaningful time together','⌂','i-violet');
+ return infoRow('Health journey','Sustainable movement, nutrition and everyday choices','♥','i-green')+infoRow('Doctor program','Add it when you enroll','＋','i-green')+infoRow('Self-care','Routines that help you feel like yourself','✦','i-green');
+}
+function openSheet(kind){
+ let body='';
+ if(kind==='forYou')body=`<h2>For you</h2><div class="group">${infoRow(document.getElementById('heroTitle').textContent,document.getElementById('heroSub').textContent,'✦','i-blue')}</div>`;
+ if(kind==='tasks')body=`<h2>Today</h2><div class="group">${tasks().map(t=>row(t.text,'')).join('')||'<div class="empty">You’re clear.</div>'}</div>`;
+ if(kind==='routines'){const rg=checklistData();body=`<h2>Routines</h2><div class="sub" style="margin:0 3px 14px">Your original routine groups, all in one flow.</div>${Object.entries(rg).map(([n,it])=>`<div class="section-head" style="margin-top:12px"><div class="section-title">${esc(n)}</div><div class="routine-progress">${it.filter(x=>x.done).length}/${it.length}</div></div><div class="group">${it.map(x=>`<div class="mini-row"><span class="mini-dot ${x.done?'done':''}">${x.done?'✓':''}</span><span>${esc(x.text)}</span></div>`).join('')||'<div class="empty">No items.</div>'}</div>`).join('')}`;}
+ if(kind==='doctor')body=`<h2>Doctor program</h2><div class="group"><div class="row"><div class="row-main"><div class="row-title">A place for the program when you join</div><div class="row-sub" style="white-space:normal">Goals, appointments, nutrition guidance and measurements can live here without taking over the rest of your app.</div></div></div></div>`;
+ if(kind==='data')body=`<h2>Sync & Data</h2><div class="group">
+   <div class="row"><div class="icon i-green">☁</div><div class="row-main"><div class="row-title">${sb?'Supabase connected':'Supabase not connected'}</div><div class="row-sub">Table: nl_sync</div></div></div>
+   <div class="row"><div class="icon i-blue">↻</div><div class="row-main"><div class="row-title">Your app data stays in sync</div><div class="row-sub">V9 menu settings and app state use the same Supabase setup.</div></div></div>
+ </div>`;
+ if(kind==='reset'){let vals=V.priorities||[];body=`<h2>Weekly reset</h2><div class="sub" style="margin:0 3px 14px">Pick up to three priorities. Keep them broad and useful.</div><div class="group" id="resetEdit">${[0,1,2].map(i=>`<div class="row"><input id="p${i}" value="${esc(vals[i]||'')}" placeholder="${['Health / myself','Family / life','Career / home'][i]}" style="width:100%;border:0;background:transparent;color:var(--text);outline:0;font-size:15px"></div>`).join('')}</div><button class="hero-action" style="background:var(--ink);color:var(--bg);margin:16px 3px" onclick="saveReset()">Save my week</button>`}
+ document.getElementById('sheetBody').innerHTML=body;document.getElementById('sheetWrap').classList.add('show')
+}
+async function saveReset(){V.priorities=[0,1,2].map(i=>document.getElementById('p'+i).value.trim()).filter(Boolean);await saveV();closeSheet();render()}
+function closeSheet(){document.getElementById('sheetWrap').classList.remove('show')}
+
+const THEMES=[
+  ['stone','Stone + Navy'],
+  ['lavender','Lavender + Plum'],
+  ['blue','Coastal Blue'],
+  ['rose','Rose + Burgundy'],
+  ['midnight','Midnight']
+];
+function applyTheme(name){
+  document.documentElement.setAttribute('data-theme',name);
+  localStorage.setItem('nicklife_theme',name);
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#f3f0ea');
+}
+function openThemeSheet(){
+  const cur=document.documentElement.getAttribute('data-theme')||'stone';
+  document.getElementById('sheetBody').innerHTML=`<h2>Choose a theme</h2>
+    <div class="sub" style="margin:0 3px 14px">This changes the overall look without changing your data.</div>
+    <div class="theme-grid">
+      ${THEMES.map(([k,l])=>`<button class="theme-option ${cur===k?'active':''}" onclick="applyTheme('${k}');openThemeSheet()">
+        <div class="theme-swatch sw-${k}"></div>
+        <div style="font-weight:750">${l}</div>
+      </button>`).join('')}
+    </div>`;
+  document.getElementById('sheetWrap').classList.add('show');
+}
+(function initTheme(){
+  const saved=localStorage.getItem('nicklife_theme')||'stone';
+  applyTheme(saved);
+})();
+
+
+document.addEventListener('DOMContentLoaded',function(){
+  var mb=document.getElementById('menuButton');
+  var tb=document.getElementById('themeButton');
+  if(mb){
+    mb.addEventListener('click',function(e){
+      e.preventDefault(); e.stopPropagation(); openMenu();
+    });
+  }
+  if(tb){
+    tb.addEventListener('click',function(e){
+      e.preventDefault(); e.stopPropagation(); openThemeSheet();
+    });
+  }
+});
+
+load();
+</script>
+</body></html>
